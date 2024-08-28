@@ -9,7 +9,6 @@
 int main (int argc, char **argv)
 {
     printf("Hello, CS 261!\n");
-    printf("Test");
     return EXIT_SUCCESS;
 }
 

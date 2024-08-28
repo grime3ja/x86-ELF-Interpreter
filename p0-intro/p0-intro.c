@@ -11,14 +11,14 @@
 // returns the the sum of the absolute value of 2 numbers.
 int add_abs (int num1, int num2)
 {
-    return abs(num1) + abs(num2);
+    return abs(num1 + num2);
 }
 
 // adds two numbers and stores them into a pointer as long as said pointer is not null.
 void add_ptr (int num1, int num2, int *ans)
 {
-    if (*ans) {
-        ans = num1 + num2;
+    if (ans != NULL) {
+        *ans = num1 + num2;
     }
 }
 
