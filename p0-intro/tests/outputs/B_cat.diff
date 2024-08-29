@@ -1,0 +1,11 @@
+--- outputs/B_cat.txt	2024-08-29 10:33:49.679457331 -0400
++++ expected/B_cat.txt	2024-07-10 15:12:08.000000000 -0400
+@@ -0,0 +1,8 @@
++== HEADING ==
++
++This is some sample text. It is in a longer paragraph so that there are multiple
++lines of output. After this paragraph, there is single blank line before the
++second (and final) paragraph.
++
++This is the final paragraph. There is also a blank line after this sentence.
++

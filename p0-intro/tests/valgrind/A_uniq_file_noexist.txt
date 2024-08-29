@@ -1,0 +1,14 @@
+==1813701== Memcheck, a memory error detector
+==1813701== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1813701== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1813701== Command: ../intro -u inputs/A_noexist.txt
+==1813701== 
+==1813701== 
+==1813701== HEAP SUMMARY:
+==1813701==     in use at exit: 0 bytes in 0 blocks
+==1813701==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==1813701== 
+==1813701== All heap blocks were freed -- no leaks are possible
+==1813701== 
+==1813701== For lists of detected and suppressed errors, rerun with: -s
+==1813701== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

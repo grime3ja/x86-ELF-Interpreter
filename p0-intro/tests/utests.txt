@@ -1,0 +1,14 @@
+Running suite(s): Default
+45%: Checks: 22, Failures: 12, Errors: 0
+public.c:43:F:Public:C_isprime_simple:0: Assertion '!is_prime(4)' failed
+public.c:65:F:Public:B_addvec_simple:0: Assertion 'assert_eq_tol(ans.x, 6.8, 1e-7)' failed
+public.c:83:F:Public:B_dotprod_simple:0: Assertion 'assert_eq_tol(ans, 33.24, 1e-7)' failed
+public.c:101:F:Public:B_sumarray_simple:0: Assertion 'sum_array(nums, 4) == 26' failed: sum_array(nums, 4) == -1, 26 == 26
+public.c:128:F:Public:A_sortarray_simple:0: Assertion 'nums[i] == ref[i]' failed: nums[i] == 5, ref[i] == 2
+private.c:13:F:Private:D_addabs_negative_ints:0: Assertion 'add_abs(2,-4) == 6' failed: add_abs(2,-4) == 2, 6 == 6
+private.c:37:F:Private:C_isprime_edge_cases:0: Assertion '!is_prime(1)' failed
+private.c:52:F:Private:B_sumarray_zero:0: Assertion 'sum_array(nums, 3) == 0' failed: sum_array(nums, 3) == -1, 0 == 0
+private.c:60:F:Private:B_sumarray_empty_array:0: Assertion 'sum_array(nums, 0) == 0' failed: sum_array(nums, 0) == -1, 0 == 0
+private.c:67:F:Private:B_sumarray_null_pointer:0: Assertion 'sum_array(((void *)0), 0) == 0' failed: sum_array(((void *)0), 0) == -1, 0 == 0
+private.c:77:F:Private:B_readline:0: Assertion 'read_line(f, buffer, 256)' failed
+private.c:128:F:Private:A_sortarray_long:0: Assertion 'nums[i] == ref[i]' failed: nums[i] == 63, ref[i] == 0
