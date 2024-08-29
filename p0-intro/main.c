@@ -8,7 +8,5 @@
 
 int main (int argc, char **argv)
 {
-    printf("Hello, CS 261!\n");
     return EXIT_SUCCESS;
 }
-

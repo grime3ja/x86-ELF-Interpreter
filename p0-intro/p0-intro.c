@@ -34,11 +34,20 @@ int factorial (int num)
 
 bool is_prime (int num)
 {
+    for (int i = 2; i < sqrt(num); i++) {
+        if (i % 2 == 0) {
+            return false;
+        }
+    }
     return true;
 }
 
 void add_vec (vector_t v1, vector_t v2, vector_t* result)
 {
+    // vector_t total = &result;
+    // *result.x = v1.x + v2.x;
+    // *result.y = v1.y + v2.y;
+    
 }
 
 double dot_prod_vec (vector_t v1, vector_t v2)
@@ -48,6 +57,10 @@ double dot_prod_vec (vector_t v1, vector_t v2)
 
 int sum_array (int *nums, size_t n)
 {
+    int values[n];
+    // values = &nums;
+    int sum = 0;
+
     return -1;
 }
 
