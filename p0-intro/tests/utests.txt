@@ -1,8 +1,7 @@
 Running suite(s): Default
-72%: Checks: 22, Failures: 6, Errors: 0
-public.c:83:F:Public:B_dotprod_simple:0: Assertion 'assert_eq_tol(ans, 33.24, 1e-7)' failed
-public.c:101:F:Public:B_sumarray_simple:0: Assertion 'sum_array(nums, 4) == 26' failed: sum_array(nums, 4) == 1730392588, 26 == 26
+77%: Checks: 22, Failures: 5, Errors: 0
+public.c:101:F:Public:B_sumarray_simple:0: Assertion 'sum_array(nums, 4) == 26' failed: sum_array(nums, 4) == 14, 26 == 26
 public.c:128:F:Public:A_sortarray_simple:0: Assertion 'nums[i] == ref[i]' failed: nums[i] == 5, ref[i] == 2
-private.c:52:F:Private:B_sumarray_zero:0: Assertion 'sum_array(nums, 3) == 0' failed: sum_array(nums, 3) == -1088361804, 0 == 0
+private.c:52:F:Private:B_sumarray_zero:0: Assertion 'sum_array(nums, 3) == 0' failed: sum_array(nums, 3) == 18, 0 == 0
 private.c:77:F:Private:B_readline:0: Assertion 'read_line(f, buffer, 256)' failed
-private.c:128:F:Private:A_sortarray_long:0: Assertion 'nums[i] == ref[i]' failed: nums[i] == 8, ref[i] == 0
+private.c:128:F:Private:A_sortarray_long:0: Assertion 'nums[i] == ref[i]' failed: nums[i] == 39, ref[i] == 1

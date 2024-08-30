@@ -57,7 +57,7 @@ void add_vec (vector_t v1, vector_t v2, vector_t* result)
 
 double dot_prod_vec (vector_t v1, vector_t v2)
 {
-    return 0;
+    return (v1.x * v2.x) + (v1.y * v2.y);
 }
 
 int sum_array (int *nums, size_t n)
@@ -65,7 +65,7 @@ int sum_array (int *nums, size_t n)
     if (nums != NULL) {
         int sum = 0;
         for (int i = 0; i < n; i++) {
-            sum = sum + &nums[i];
+            sum = sum + *nums+i;
         }
         return sum;
     }
