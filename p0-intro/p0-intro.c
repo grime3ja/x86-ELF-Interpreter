@@ -11,7 +11,7 @@
 // returns the the sum of the absolute value of 2 numbers.
 int add_abs (int num1, int num2)
 {
-    return abs(num1 + num2);
+    return abs(num1) + abs(num2);
 }
 
 // adds two numbers and stores them into a pointer as long as said pointer is not null.
@@ -34,8 +34,11 @@ int factorial (int num)
 
 bool is_prime (int num)
 {
-    for (int i = 2; i < sqrt(num); i++) {
-        if (i % 2 == 0) {
+    if (num < 2) {
+        return false;
+    }
+    for (int i = 2; i <= sqrt(num); i++) {
+        if (num % i == 0) {
             return false;
         }
     }
@@ -44,10 +47,12 @@ bool is_prime (int num)
 
 void add_vec (vector_t v1, vector_t v2, vector_t* result)
 {
-    // vector_t total = &result;
-    // *result.x = v1.x + v2.x;
-    // *result.y = v1.y + v2.y;
-    
+    if (result != NULL) {
+        vector_t total;
+        total.x = v1.x + v2.x;
+        total.y = v1.y + v2.y;
+        *result = total;
+    }
 }
 
 double dot_prod_vec (vector_t v1, vector_t v2)
@@ -57,11 +62,14 @@ double dot_prod_vec (vector_t v1, vector_t v2)
 
 int sum_array (int *nums, size_t n)
 {
-    int values[n];
-    // values = &nums;
-    int sum = 0;
-
-    return -1;
+    if (nums != NULL) {
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum = sum + &nums[i];
+        }
+        return sum;
+    }
+    return 0;
 }
 
 void sort_array (int *nums, size_t n)

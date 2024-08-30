@@ -1,4 +1,4 @@
---- outputs/C_goodbye.txt	2024-08-29 10:33:46.471294274 -0400
+--- outputs/C_goodbye.txt	2024-08-30 11:26:26.253079723 -0400
 +++ expected/C_goodbye.txt	2024-07-10 15:12:08.000000000 -0400
 @@ -0,0 +1 @@
 +Goodbye!
