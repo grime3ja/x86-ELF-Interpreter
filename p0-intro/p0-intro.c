@@ -65,7 +65,7 @@ int sum_array (int *nums, size_t n)
     if (nums != NULL) {
         int sum = 0;
         for (int i = 0; i < n; i++) {
-            sum = sum + *nums+i;
+            sum += *nums++;
         }
         return sum;
     }

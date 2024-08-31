@@ -1,4 +1,4 @@
---- outputs/A_invalid_opt4.txt	2024-08-30 17:45:30.363664598 -0400
+--- outputs/A_invalid_opt4.txt	2024-08-30 23:27:23.866477263 -0400
 +++ expected/A_invalid_opt4.txt	2024-07-10 15:12:08.000000000 -0400
 @@ -0,0 +1 @@
 +Invalid argument.
