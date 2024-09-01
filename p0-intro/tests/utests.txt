@@ -1,5 +1,2 @@
 Running suite(s): Default
-86%: Checks: 22, Failures: 3, Errors: 0
-public.c:128:F:Public:A_sortarray_simple:0: Assertion 'nums[i] == ref[i]' failed: nums[i] == 5, ref[i] == 2
-private.c:77:F:Private:B_readline:0: Assertion 'read_line(f, buffer, 256)' failed
-private.c:128:F:Private:A_sortarray_long:0: Assertion 'nums[i] == ref[i]' failed: nums[i] == 78, ref[i] == 2
+100%: Checks: 22, Failures: 0, Errors: 0

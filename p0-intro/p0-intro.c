@@ -72,11 +72,31 @@ int sum_array (int *nums, size_t n)
     return 0;
 }
 
+// performs a selection sort on the given int array, as taught in CS240 at JMU.
 void sort_array (int *nums, size_t n)
 {
+    if (nums != NULL) {
+        for (int i = 0; i < n; i++) {
+            int big = 0;
+            for (int j = 1; j < n - i; j++) {
+                if (*(nums + j) > *(nums + big)) {
+                    big = j;
+                }
+            }
+            int swap = *(nums + big);
+            *(nums + big) = *(nums + n - i - 1);
+            *(nums + n - i - 1) = swap;
+        }
+    }
 }
 
 bool read_line (FILE *f, char *buffer, size_t size)
 {
+    if (f != NULL && buffer != NULL) {
+        char *ret = fgets(buffer, size, f);
+        if (ret != NULL) {
+            return true;
+        }
+    }
     return false;
 }
