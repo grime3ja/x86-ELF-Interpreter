@@ -1,14 +1,15 @@
-==717294== Memcheck, a memory error detector
-==717294== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==717294== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==717294== Command: ../intro -c inputs/B_noexist.txt
-==717294== 
-==717294== 
-==717294== HEAP SUMMARY:
-==717294==     in use at exit: 0 bytes in 0 blocks
-==717294==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
-==717294== 
-==717294== All heap blocks were freed -- no leaks are possible
-==717294== 
-==717294== For lists of detected and suppressed errors, rerun with: -s
-==717294== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1462139== Memcheck, a memory error detector
+==1462139== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1462139== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1462139== Command: ../intro -c inputs/B_noexist.txt
+==1462139== 
+Invalid file.
+==1462139== 
+==1462139== HEAP SUMMARY:
+==1462139==     in use at exit: 0 bytes in 0 blocks
+==1462139==   total heap usage: 2 allocs, 2 frees, 8,664 bytes allocated
+==1462139== 
+==1462139== All heap blocks were freed -- no leaks are possible
+==1462139== 
+==1462139== For lists of detected and suppressed errors, rerun with: -s
+==1462139== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

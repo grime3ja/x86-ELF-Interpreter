@@ -1,0 +1,4 @@
+Goodbye!
+120
+Invalid argument.
+Invalid argument.

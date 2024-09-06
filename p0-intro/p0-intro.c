@@ -72,7 +72,7 @@ int sum_array (int *nums, size_t n)
     return 0;
 }
 
-// performs a selection sort on the given int array, as taught in CS240 at JMU.
+// performs a selection sort on the given int array, as taught in CS240 at JMU by Dr. Molloy.
 void sort_array (int *nums, size_t n)
 {
     if (nums != NULL) {

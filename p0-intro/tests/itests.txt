@@ -1,25 +1,25 @@
-D_hello                        FAIL (see tests/outputs/D_hello.diff for details)
-C_goodbye                      FAIL (see tests/outputs/C_goodbye.diff for details)
-B_fact_5                       FAIL (see tests/outputs/B_fact_5.diff for details)
-B_fact_0                       FAIL (see tests/outputs/B_fact_0.diff for details)
-B_fact_1                       FAIL (see tests/outputs/B_fact_1.diff for details)
-B_fact_10                      FAIL (see tests/outputs/B_fact_10.diff for details)
-B_cat                          FAIL (see tests/outputs/B_cat.diff for details)
-B_cat_no_filename              FAIL (see tests/outputs/B_cat_no_filename.diff for details)
-B_cat_file_noexist             FAIL (see tests/outputs/B_cat_file_noexist.diff for details)
-A_triodd                       FAIL (see tests/outputs/A_triodd.diff for details)
+D_hello                        pass
+C_goodbye                      pass
+B_fact_5                       pass
+B_fact_0                       pass
+B_fact_1                       pass
+B_fact_10                      pass
+B_cat                          pass
+B_cat_no_filename              pass
+B_cat_file_noexist             pass
+A_triodd                       pass
 A_triodd_invalid_num           pass
 A_uniq_simple                  FAIL (see tests/outputs/A_uniq_simple.diff for details)
 A_uniq_similar                 FAIL (see tests/outputs/A_uniq_similar.diff for details)
 A_uniq_nonseq                  FAIL (see tests/outputs/A_uniq_nonseq.diff for details)
 A_uniq_empty                   pass
-A_uniq_no_filename             FAIL (see tests/outputs/A_uniq_no_filename.diff for details)
-A_uniq_file_noexist            FAIL (see tests/outputs/A_uniq_file_noexist.diff for details)
-A_invalid_switch               FAIL (see tests/outputs/A_invalid_switch.diff for details)
+A_uniq_no_filename             pass
+A_uniq_file_noexist            pass
+A_invalid_switch               pass
 A_invalid_opt1                 FAIL (see tests/outputs/A_invalid_opt1.diff for details)
-A_invalid_opt2                 FAIL (see tests/outputs/A_invalid_opt2.diff for details)
-A_invalid_opt3                 FAIL (see tests/outputs/A_invalid_opt3.diff for details)
-A_invalid_opt4                 FAIL (see tests/outputs/A_invalid_opt4.diff for details)
+A_invalid_opt2                 pass
+A_invalid_opt3                 pass
+A_invalid_opt4                 pass
 A_ordering                     FAIL (see tests/outputs/A_ordering.diff for details)
 A_ordering_scrambled           FAIL (see tests/outputs/A_ordering_scrambled.diff for details)
 A_ordering_multi               FAIL (see tests/outputs/A_ordering_multi.diff for details)
