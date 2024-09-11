@@ -1,10 +1,10 @@
---- outputs/A_ordering.txt	2024-09-05 09:29:05.680894711 -0400
+--- outputs/A_ordering.txt	2024-09-11 00:24:39.095275742 -0400
 +++ expected/A_ordering.txt	2024-07-10 15:12:08.000000000 -0400
-@@ -1,4 +1,33 @@
+@@ -1,7 +1,33 @@
+-Invalid argument.
+-Invalid argument.
  Goodbye!
  120
--Invalid argument.
--Invalid argument.
 +== HEADING ==
 +
 +This is some sample text. It is in a longer paragraph so that there are multiple
@@ -33,6 +33,6 @@
 +tri
 +odd
 +20
-+aaa
-+bbb
-+ccc
+ aaa
+ bbb
+ ccc

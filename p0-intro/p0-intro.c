@@ -48,10 +48,8 @@ bool is_prime (int num)
 void add_vec (vector_t v1, vector_t v2, vector_t* result)
 {
     if (result != NULL) {
-        vector_t total;
-        total.x = v1.x + v2.x;
-        total.y = v1.y + v2.y;
-        *result = total;
+        result->x = v1.x + v2.x;
+        result->y = v1.y + v2.y;
     }
 }
 
@@ -92,11 +90,10 @@ void sort_array (int *nums, size_t n)
 
 bool read_line (FILE *f, char *buffer, size_t size)
 {
+    // return f != NULL && buffer != NULL && fgets(buffer, size, f) != NULL;
     if (f != NULL && buffer != NULL) {
         char *ret = fgets(buffer, size, f);
-        if (ret != NULL) {
-            return true;
-        }
+        return ret != NULL;
     }
     return false;
 }

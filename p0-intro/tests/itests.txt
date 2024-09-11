@@ -9,9 +9,9 @@ B_cat_no_filename              pass
 B_cat_file_noexist             pass
 A_triodd                       pass
 A_triodd_invalid_num           pass
-A_uniq_simple                  FAIL (see tests/outputs/A_uniq_simple.diff for details)
-A_uniq_similar                 FAIL (see tests/outputs/A_uniq_similar.diff for details)
-A_uniq_nonseq                  FAIL (see tests/outputs/A_uniq_nonseq.diff for details)
+A_uniq_simple                  pass
+A_uniq_similar                 pass
+A_uniq_nonseq                  pass
 A_uniq_empty                   pass
 A_uniq_no_filename             pass
 A_uniq_file_noexist            pass

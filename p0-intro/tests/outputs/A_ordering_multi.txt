@@ -1,11 +1,9 @@
+Invalid argument.
+Invalid argument.
+Invalid argument.
+Invalid argument.
+Invalid argument.
 Goodbye!
-Invalid argument.
-120
-Invalid argument.
-Invalid argument.
-Goodbye!
-Invalid argument.
-Invalid argument.
 24
 == HEADING ==
 

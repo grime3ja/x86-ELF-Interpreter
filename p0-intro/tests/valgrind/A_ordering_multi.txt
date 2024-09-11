@@ -1,16 +1,14 @@
-==1462588== Memcheck, a memory error detector
-==1462588== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1462588== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1462588== Command: ../intro -g -t 100 -f 5 -u inputs/A_uniq_nonseq.txt -c inputs/A_noexist.txt -g -t 20 -u inputs/A_uniq_simple.txt -f 4 -c inputs/B_cat.txt
-==1462588== 
+==1029388== Memcheck, a memory error detector
+==1029388== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1029388== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1029388== Command: ../intro -g -t 100 -f 5 -u inputs/A_uniq_nonseq.txt -c inputs/A_noexist.txt -g -t 20 -u inputs/A_uniq_simple.txt -f 4 -c inputs/B_cat.txt
+==1029388== 
+Invalid argument.
+Invalid argument.
+Invalid argument.
+Invalid argument.
+Invalid argument.
 Goodbye!
-Invalid argument.
-120
-Invalid argument.
-Invalid argument.
-Goodbye!
-Invalid argument.
-Invalid argument.
 24
 == HEADING ==
 
@@ -20,19 +18,19 @@ second (and final) paragraph.
 
 This is the final paragraph. There is also a blank line after this sentence.
 
-==1462588== 
-==1462588== HEAP SUMMARY:
-==1462588==     in use at exit: 472 bytes in 1 blocks
-==1462588==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
-==1462588== 
-==1462588== LEAK SUMMARY:
-==1462588==    definitely lost: 0 bytes in 0 blocks
-==1462588==    indirectly lost: 0 bytes in 0 blocks
-==1462588==      possibly lost: 0 bytes in 0 blocks
-==1462588==    still reachable: 472 bytes in 1 blocks
-==1462588==         suppressed: 0 bytes in 0 blocks
-==1462588== Reachable blocks (those to which a pointer was found) are not shown.
-==1462588== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1462588== 
-==1462588== For lists of detected and suppressed errors, rerun with: -s
-==1462588== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1029388== 
+==1029388== HEAP SUMMARY:
+==1029388==     in use at exit: 472 bytes in 1 blocks
+==1029388==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
+==1029388== 
+==1029388== LEAK SUMMARY:
+==1029388==    definitely lost: 0 bytes in 0 blocks
+==1029388==    indirectly lost: 0 bytes in 0 blocks
+==1029388==      possibly lost: 0 bytes in 0 blocks
+==1029388==    still reachable: 472 bytes in 1 blocks
+==1029388==         suppressed: 0 bytes in 0 blocks
+==1029388== Reachable blocks (those to which a pointer was found) are not shown.
+==1029388== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1029388== 
+==1029388== For lists of detected and suppressed errors, rerun with: -s
+==1029388== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

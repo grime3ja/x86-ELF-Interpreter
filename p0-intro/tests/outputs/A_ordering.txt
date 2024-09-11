@@ -1,4 +1,7 @@
+Invalid argument.
+Invalid argument.
 Goodbye!
 120
-Invalid argument.
-Invalid argument.
+aaa
+bbb
+ccc

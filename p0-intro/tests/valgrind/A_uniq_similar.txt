@@ -1,21 +1,29 @@
-==1462210== Memcheck, a memory error detector
-==1462210== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1462210== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1462210== Command: ../intro -u inputs/A_uniq_similar.txt
-==1462210== 
-==1462210== 
-==1462210== HEAP SUMMARY:
-==1462210==     in use at exit: 472 bytes in 1 blocks
-==1462210==   total heap usage: 1 allocs, 0 frees, 472 bytes allocated
-==1462210== 
-==1462210== LEAK SUMMARY:
-==1462210==    definitely lost: 0 bytes in 0 blocks
-==1462210==    indirectly lost: 0 bytes in 0 blocks
-==1462210==      possibly lost: 0 bytes in 0 blocks
-==1462210==    still reachable: 472 bytes in 1 blocks
-==1462210==         suppressed: 0 bytes in 0 blocks
-==1462210== Reachable blocks (those to which a pointer was found) are not shown.
-==1462210== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1462210== 
-==1462210== For lists of detected and suppressed errors, rerun with: -s
-==1462210== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1029158== Memcheck, a memory error detector
+==1029158== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1029158== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1029158== Command: ../intro -u inputs/A_uniq_similar.txt
+==1029158== 
+aaa
+abb
+aab
+bbb
+bba
+baa
+bbb
+ccc
+==1029158== 
+==1029158== HEAP SUMMARY:
+==1029158==     in use at exit: 944 bytes in 2 blocks
+==1029158==   total heap usage: 5 allocs, 3 frees, 25,520 bytes allocated
+==1029158== 
+==1029158== LEAK SUMMARY:
+==1029158==    definitely lost: 0 bytes in 0 blocks
+==1029158==    indirectly lost: 0 bytes in 0 blocks
+==1029158==      possibly lost: 0 bytes in 0 blocks
+==1029158==    still reachable: 944 bytes in 2 blocks
+==1029158==         suppressed: 0 bytes in 0 blocks
+==1029158== Reachable blocks (those to which a pointer was found) are not shown.
+==1029158== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1029158== 
+==1029158== For lists of detected and suppressed errors, rerun with: -s
+==1029158== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
