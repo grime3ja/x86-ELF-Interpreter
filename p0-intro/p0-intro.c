@@ -8,13 +8,18 @@
 
 #include <math.h>
 
-// returns the the sum of the absolute value of 2 numbers.
+/* 
+ * returns the the sum of the absolute value of 2 numbers.
+ */
 int add_abs (int num1, int num2)
 {
     return abs(num1) + abs(num2);
 }
 
-// adds two numbers and stores them into a pointer as long as said pointer is not null.
+/*
+ * adds two numbers and stores them into a pointer as long as 
+ * said pointer is not null.
+ */
 void add_ptr (int num1, int num2, int *ans)
 {
     if (ans != NULL) {
@@ -22,7 +27,9 @@ void add_ptr (int num1, int num2, int *ans)
     }
 }
 
-// returns the factorial of a given number.
+/*
+ * returns the factorial of a given number.
+ */
 int factorial (int num)
 {
     int ret = 1;
@@ -32,6 +39,9 @@ int factorial (int num)
     return ret;
 }
 
+/*
+ * returns true if a given number, num, is prime.
+ */
 bool is_prime (int num)
 {
     if (num < 2) {
@@ -45,6 +55,9 @@ bool is_prime (int num)
     return true;
 }
 
+/*
+ * adds two vector structs, as specified in p0-intro.h.
+ */
 void add_vec (vector_t v1, vector_t v2, vector_t* result)
 {
     if (result != NULL) {
@@ -53,11 +66,18 @@ void add_vec (vector_t v1, vector_t v2, vector_t* result)
     }
 }
 
+/*
+ * performs and returns a dot product on two vector structs, as 
+ * specified in p0-intro.h.
+ */
 double dot_prod_vec (vector_t v1, vector_t v2)
 {
     return (v1.x * v2.x) + (v1.y * v2.y);
 }
 
+/*
+ * returns the sum of an array, nums, of size n
+ */
 int sum_array (int *nums, size_t n)
 {
     if (nums != NULL) {
@@ -70,7 +90,10 @@ int sum_array (int *nums, size_t n)
     return 0;
 }
 
-// performs a selection sort on the given int array, as taught in CS240 at JMU by Dr. Molloy.
+/*
+ * performs a selection sort on the given int array, as taught in 
+ * CS240 at JMU by Dr. Molloy.
+ */
 void sort_array (int *nums, size_t n)
 {
     if (nums != NULL) {
@@ -88,6 +111,9 @@ void sort_array (int *nums, size_t n)
     }
 }
 
+/*
+ * reads a single line of a file, f, and stores the line in a string, buffer.
+ */
 bool read_line (FILE *f, char *buffer, size_t size)
 {
     // return f != NULL && buffer != NULL && fgets(buffer, size, f) != NULL;

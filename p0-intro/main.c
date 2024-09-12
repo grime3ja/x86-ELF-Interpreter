@@ -9,6 +9,9 @@
 
 int main (int argc, char **argv)
 {
+    /*
+     * field variables.
+     */
     int opt = 0;
 
     int flags = 0;
@@ -47,6 +50,8 @@ int main (int argc, char **argv)
                 flags++;
                 flag_t = true;
                 bound = strtol(optarg, &endpointer, 10);
+                // this line tests if the given parameter includes an 
+                // alphanumeric value
                 if (*endpointer != '\0') {
                     exit(EXIT_FAILURE);
                 }
@@ -115,7 +120,8 @@ int main (int argc, char **argv)
         while (read_line(temp_f, temp, 100)) {
             read_line(file, buffer, 100);
             // if (buffer is not equal to the previous line)
-            if (strncmp(buffer, temp, (sizeof(buffer) >= sizeof(temp) ? sizeof(buffer) : sizeof(temp))) != 0) {
+            if (strncmp(buffer, temp, (sizeof(buffer) >= sizeof(temp) ? 
+                        sizeof(buffer) : sizeof(temp))) != 0) {
                 printf("%s", buffer);
             }
         }
