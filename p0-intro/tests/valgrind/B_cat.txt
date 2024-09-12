@@ -1,8 +1,8 @@
-==927561== Memcheck, a memory error detector
-==927561== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==927561== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==927561== Command: ../intro -c inputs/B_cat.txt
-==927561== 
+==1168385== Memcheck, a memory error detector
+==1168385== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1168385== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1168385== Command: ../intro -c inputs/B_cat.txt
+==1168385== 
 == HEADING ==
 
 This is some sample text. It is in a longer paragraph so that there are multiple
@@ -11,19 +11,19 @@ second (and final) paragraph.
 
 This is the final paragraph. There is also a blank line after this sentence.
 
-==927561== 
-==927561== HEAP SUMMARY:
-==927561==     in use at exit: 472 bytes in 1 blocks
-==927561==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
-==927561== 
-==927561== LEAK SUMMARY:
-==927561==    definitely lost: 0 bytes in 0 blocks
-==927561==    indirectly lost: 0 bytes in 0 blocks
-==927561==      possibly lost: 0 bytes in 0 blocks
-==927561==    still reachable: 472 bytes in 1 blocks
-==927561==         suppressed: 0 bytes in 0 blocks
-==927561== Reachable blocks (those to which a pointer was found) are not shown.
-==927561== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==927561== 
-==927561== For lists of detected and suppressed errors, rerun with: -s
-==927561== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1168385== 
+==1168385== HEAP SUMMARY:
+==1168385==     in use at exit: 472 bytes in 1 blocks
+==1168385==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
+==1168385== 
+==1168385== LEAK SUMMARY:
+==1168385==    definitely lost: 0 bytes in 0 blocks
+==1168385==    indirectly lost: 0 bytes in 0 blocks
+==1168385==      possibly lost: 0 bytes in 0 blocks
+==1168385==    still reachable: 472 bytes in 1 blocks
+==1168385==         suppressed: 0 bytes in 0 blocks
+==1168385== Reachable blocks (those to which a pointer was found) are not shown.
+==1168385== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1168385== 
+==1168385== For lists of detected and suppressed errors, rerun with: -s
+==1168385== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -9,15 +9,19 @@
 
 int main (int argc, char **argv)
 {
-    int opt;
+    int opt = 0;
 
     int flags = 0;
 
-    bool flag_g = false, flag_f = false, flag_c = false, flag_t = false, flag_u = false;
+    bool flag_g = false;
+    bool flag_f = false;
+    bool flag_c = false;
+    bool flag_t = false;
+    bool flag_u = false;
     int val_f = 0;
-    char *val_c;
-    char *val_u;
-    char *endpointer;
+    char *val_c = NULL;
+    char *val_u = NULL;
+    char *endpointer = NULL;
     FILE *file = NULL;
     FILE *temp_f = NULL;
     char buffer[100];
@@ -60,64 +64,59 @@ int main (int argc, char **argv)
     if (flags == 0) {
         printf("%s", "Hello, world!\n");
     }
-    else {
-        if (flag_g) {
-            printf("%s", "Goodbye!\n");
+    if (flag_g) {
+        printf("%s", "Goodbye!\n");
+    }
+    if (flag_f) {
+        printf("%d\n", factorial(val_f));
+    }
+    if (flag_c) {
+        if (val_c == NULL) {
+            printf("%s\n", "Invalid argument.");
+            exit(EXIT_FAILURE);
         }
-        if (flag_f) {
-            printf("%d\n", factorial(val_f));
+        file = fopen(val_c, "r");
+        if (file == NULL) {
+            printf("%s\n", "Invalid file.");
+            exit(EXIT_FAILURE);
         }
-        if (flag_c) {
-            if (val_c == NULL) {
-                printf("%s\n", "Invalid argument.");
-                exit(EXIT_FAILURE);
+        while (read_line(file, buffer, sizeof(buffer))) {
+            printf("%s", buffer);
+        }
+    }
+    if (flag_t) {
+        for (int i = 1; i <= bound; i++) {
+            if (i % 3 == 0 && i % 2 == 1) {
+                printf("%s\n", "triodd");
+            } else if (i % 3 == 0) {
+                printf("%s\n", "tri");
+            } else if (i % 2 == 1) {
+                printf("%s\n", "odd");
+            } else {
+                printf("%d\n", i);
             }
-            file = fopen(val_c, "r");
-            if (file == NULL) {
-                printf("%s\n", "Invalid file.");
-                exit(EXIT_FAILURE);
-            }
-            while (read_line(file, buffer, sizeof(buffer))) {
+        }
+    }
+    if (flag_u) {
+        if (val_u == NULL) {
+            printf("%s\n", "Invalid argument.");
+            exit(EXIT_FAILURE);
+        }
+        file = fopen(val_u, "r");
+        temp_f = fopen(val_u, "r");
+        if (file == NULL) {
+            printf("%s\n", "Invalid file.");
+            exit(EXIT_FAILURE);
+        }
+        char temp[100];
+        if (read_line(file, buffer, 100)) {
+            printf("%s", buffer);
+        }
+        while (read_line(temp_f, temp, 100)) {
+            read_line(file, buffer, 100);
+            // if (buffer is not equal to the previous line)
+            if (strncmp(buffer, temp, (sizeof(buffer) >= sizeof(temp) ? sizeof(buffer) : sizeof(temp))) != 0) {
                 printf("%s", buffer);
-            }
-        }
-        if (flag_t) {
-            for (int i = 1; i <= bound; i++) {
-                if (i % 3 == 0 && i % 2 == 1) {
-                    printf("%s\n", "triodd");
-                }
-                else if (i % 3 == 0) {
-                    printf("%s\n", "tri");
-                }
-                else if (i % 2 == 1) {
-                    printf("%s\n", "odd");
-                }
-                else {
-                    printf("%d\n", i);
-                }
-            }
-        }
-        if (flag_u) {
-            if (val_u == NULL) {
-                printf("%s\n", "Invalid argument.");
-                exit(EXIT_FAILURE);
-            }
-            file = fopen(val_u, "r");
-            temp_f = fopen(val_u, "r");
-            if (file == NULL) {
-                printf("%s\n", "Invalid file.");
-                exit(EXIT_FAILURE);
-            }
-            char temp[100];
-            if (read_line(file, buffer, 100)) {
-                printf("%s", buffer);
-            }
-            while (read_line(temp_f, temp, 100)) {
-                read_line(file, buffer, 100);
-                // if (buffer is not equal to the previous line)
-                if (strncmp(buffer, temp, (sizeof(buffer) >= sizeof(temp) ? sizeof(buffer) : sizeof(temp))) != 0) {
-                    printf("%s", buffer);
-                }
             }
         }
     }
