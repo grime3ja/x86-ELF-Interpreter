@@ -1,27 +1,27 @@
-==1029179== Memcheck, a memory error detector
-==1029179== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1029179== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1029179== Command: ../intro -u inputs/A_uniq_nonseq.txt
-==1029179== 
+==927812== Memcheck, a memory error detector
+==927812== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==927812== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==927812== Command: ../intro -u inputs/A_uniq_nonseq.txt
+==927812== 
 turtle
 llama
 cheetah
 llama
 cheetah
 african swallow
-==1029179== 
-==1029179== HEAP SUMMARY:
-==1029179==     in use at exit: 944 bytes in 2 blocks
-==1029179==   total heap usage: 5 allocs, 3 frees, 25,520 bytes allocated
-==1029179== 
-==1029179== LEAK SUMMARY:
-==1029179==    definitely lost: 0 bytes in 0 blocks
-==1029179==    indirectly lost: 0 bytes in 0 blocks
-==1029179==      possibly lost: 0 bytes in 0 blocks
-==1029179==    still reachable: 944 bytes in 2 blocks
-==1029179==         suppressed: 0 bytes in 0 blocks
-==1029179== Reachable blocks (those to which a pointer was found) are not shown.
-==1029179== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1029179== 
-==1029179== For lists of detected and suppressed errors, rerun with: -s
-==1029179== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==927812== 
+==927812== HEAP SUMMARY:
+==927812==     in use at exit: 944 bytes in 2 blocks
+==927812==   total heap usage: 5 allocs, 3 frees, 25,520 bytes allocated
+==927812== 
+==927812== LEAK SUMMARY:
+==927812==    definitely lost: 0 bytes in 0 blocks
+==927812==    indirectly lost: 0 bytes in 0 blocks
+==927812==      possibly lost: 0 bytes in 0 blocks
+==927812==    still reachable: 944 bytes in 2 blocks
+==927812==         suppressed: 0 bytes in 0 blocks
+==927812== Reachable blocks (those to which a pointer was found) are not shown.
+==927812== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==927812== 
+==927812== For lists of detected and suppressed errors, rerun with: -s
+==927812== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

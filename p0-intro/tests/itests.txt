@@ -16,12 +16,12 @@ A_uniq_empty                   pass
 A_uniq_no_filename             pass
 A_uniq_file_noexist            pass
 A_invalid_switch               pass
-A_invalid_opt1                 FAIL (see tests/outputs/A_invalid_opt1.diff for details)
+A_invalid_opt1                 pass
 A_invalid_opt2                 pass
 A_invalid_opt3                 pass
 A_invalid_opt4                 pass
-A_ordering                     FAIL (see tests/outputs/A_ordering.diff for details)
-A_ordering_scrambled           FAIL (see tests/outputs/A_ordering_scrambled.diff for details)
-A_ordering_multi               FAIL (see tests/outputs/A_ordering_multi.diff for details)
+A_ordering                     pass
+A_ordering_scrambled           pass
+A_ordering_multi               pass
 No memory leak found.
 No uninitialized value found.

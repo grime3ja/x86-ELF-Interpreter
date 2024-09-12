@@ -15,12 +15,15 @@ int main (int argc, char **argv)
 
     bool flag_g = false, flag_f = false, flag_c = false, flag_t = false, flag_u = false;
     int val_f = 0;
+    char *val_c;
+    char *val_u;
+    char *endpointer;
     FILE *file = NULL;
     FILE *temp_f = NULL;
     char buffer[100];
     int bound = 0;
 
-    while ((opt = getopt(argc, argv, "gf:ctu")) != -1) {
+    while ((opt = getopt(argc, argv, "-gf:c:t:u:")) != -1) {
         switch(opt) {
             case 'g':
                 flags++;
@@ -29,43 +32,29 @@ int main (int argc, char **argv)
             case 'f':
                 flags++;
                 flag_f = true;
-                val_f = strtol(optarg, &optarg, 10);
+                val_f = strtol(optarg, NULL, 10);
                 break;
             case 'c':
                 flags++;
-                if (optind != argc - 1) {
-                    printf("%s\n", "Invalid argument.");
-                    break;
-                }
-                file = fopen(argv[optind], "r");
-                if (file == NULL) {
-                    printf("%s\n", "Invalid file.");
-                    break;
-                }
                 flag_c = true;
+                val_c = optarg;
                 break;
             case 't':
                 flags++;
                 flag_t = true;
-                if (optind != argc - 1) {
-                    printf("%s\n", "Invalid argument.");
-                    break;
+                bound = strtol(optarg, &endpointer, 10);
+                if (*endpointer != '\0') {
+                    exit(EXIT_FAILURE);
                 }
-                bound = strtol(argv[optind], &argv[optind], 10);
                 break;
             case 'u':
                 flags++;
-                if (optind != argc - 1) {
-                    printf("%s\n", "Invalid argument.");
-                    break;
-                }
-                file = fopen(argv[optind], "r");
-                temp_f = fopen(argv[optind], "r");
                 flag_u = true;
+                val_u = optarg;
                 break;
             default:
                 printf("%s\n", "Invalid argument.");
-                return EXIT_SUCCESS;
+                exit(EXIT_FAILURE);
         }
     }
     if (flags == 0) {
@@ -79,6 +68,15 @@ int main (int argc, char **argv)
             printf("%d\n", factorial(val_f));
         }
         if (flag_c) {
+            if (val_c == NULL) {
+                printf("%s\n", "Invalid argument.");
+                exit(EXIT_FAILURE);
+            }
+            file = fopen(val_c, "r");
+            if (file == NULL) {
+                printf("%s\n", "Invalid file.");
+                exit(EXIT_FAILURE);
+            }
             while (read_line(file, buffer, sizeof(buffer))) {
                 printf("%s", buffer);
             }
@@ -100,8 +98,15 @@ int main (int argc, char **argv)
             }
         }
         if (flag_u) {
+            if (val_u == NULL) {
+                printf("%s\n", "Invalid argument.");
+                exit(EXIT_FAILURE);
+            }
+            file = fopen(val_u, "r");
+            temp_f = fopen(val_u, "r");
             if (file == NULL) {
                 printf("%s\n", "Invalid file.");
+                exit(EXIT_FAILURE);
             }
             char temp[100];
             if (read_line(file, buffer, 100)) {
@@ -116,5 +121,5 @@ int main (int argc, char **argv)
             }
         }
     }
-    return EXIT_SUCCESS;
+    exit(EXIT_SUCCESS);
 }

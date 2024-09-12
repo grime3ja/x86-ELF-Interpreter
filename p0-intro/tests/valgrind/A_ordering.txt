@@ -1,28 +1,54 @@
-==1029374== Memcheck, a memory error detector
-==1029374== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1029374== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1029374== Command: ../intro -g -f 5 -c inputs/B_cat.txt -t 20 -u inputs/A_uniq_simple.txt
-==1029374== 
-Invalid argument.
-Invalid argument.
+==928144== Memcheck, a memory error detector
+==928144== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==928144== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==928144== Command: ../intro -g -f 5 -c inputs/B_cat.txt -t 20 -u inputs/A_uniq_simple.txt
+==928144== 
 Goodbye!
 120
+== HEADING ==
+
+This is some sample text. It is in a longer paragraph so that there are multiple
+lines of output. After this paragraph, there is single blank line before the
+second (and final) paragraph.
+
+This is the final paragraph. There is also a blank line after this sentence.
+
+odd
+2
+triodd
+4
+odd
+tri
+odd
+8
+triodd
+10
+odd
+tri
+odd
+14
+triodd
+16
+odd
+tri
+odd
+20
 aaa
 bbb
 ccc
-==1029374== 
-==1029374== HEAP SUMMARY:
-==1029374==     in use at exit: 944 bytes in 2 blocks
-==1029374==   total heap usage: 5 allocs, 3 frees, 25,520 bytes allocated
-==1029374== 
-==1029374== LEAK SUMMARY:
-==1029374==    definitely lost: 0 bytes in 0 blocks
-==1029374==    indirectly lost: 0 bytes in 0 blocks
-==1029374==      possibly lost: 0 bytes in 0 blocks
-==1029374==    still reachable: 944 bytes in 2 blocks
-==1029374==         suppressed: 0 bytes in 0 blocks
-==1029374== Reachable blocks (those to which a pointer was found) are not shown.
-==1029374== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1029374== 
-==1029374== For lists of detected and suppressed errors, rerun with: -s
-==1029374== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==928144== 
+==928144== HEAP SUMMARY:
+==928144==     in use at exit: 1,416 bytes in 3 blocks
+==928144==   total heap usage: 7 allocs, 4 frees, 34,184 bytes allocated
+==928144== 
+==928144== LEAK SUMMARY:
+==928144==    definitely lost: 0 bytes in 0 blocks
+==928144==    indirectly lost: 0 bytes in 0 blocks
+==928144==      possibly lost: 0 bytes in 0 blocks
+==928144==    still reachable: 1,416 bytes in 3 blocks
+==928144==         suppressed: 0 bytes in 0 blocks
+==928144== Reachable blocks (those to which a pointer was found) are not shown.
+==928144== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==928144== 
+==928144== For lists of detected and suppressed errors, rerun with: -s
+==928144== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

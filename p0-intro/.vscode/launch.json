@@ -7,7 +7,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/intro",
-      "args": ["-u", "tests/inputs/A_uniq_nonseq.txt"],
+      "args": ["-t", "100", "10", "-g"],
       "cwd": "."
     },
     {

@@ -1,1 +1,1 @@
-Goodbye!
+Invalid argument.
