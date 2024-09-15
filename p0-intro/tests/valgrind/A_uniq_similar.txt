@@ -1,8 +1,8 @@
-==1231246== Memcheck, a memory error detector
-==1231246== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1231246== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1231246== Command: ../intro -u inputs/A_uniq_similar.txt
-==1231246== 
+==1409043== Memcheck, a memory error detector
+==1409043== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==1409043== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==1409043== Command: ../intro -u inputs/A_uniq_similar.txt
+==1409043== 
 aaa
 abb
 aab
@@ -11,19 +11,19 @@ bba
 baa
 bbb
 ccc
-==1231246== 
-==1231246== HEAP SUMMARY:
-==1231246==     in use at exit: 944 bytes in 2 blocks
-==1231246==   total heap usage: 5 allocs, 3 frees, 25,520 bytes allocated
-==1231246== 
-==1231246== LEAK SUMMARY:
-==1231246==    definitely lost: 0 bytes in 0 blocks
-==1231246==    indirectly lost: 0 bytes in 0 blocks
-==1231246==      possibly lost: 0 bytes in 0 blocks
-==1231246==    still reachable: 944 bytes in 2 blocks
-==1231246==         suppressed: 0 bytes in 0 blocks
-==1231246== Reachable blocks (those to which a pointer was found) are not shown.
-==1231246== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1231246== 
-==1231246== For lists of detected and suppressed errors, rerun with: -s
-==1231246== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1409043== 
+==1409043== HEAP SUMMARY:
+==1409043==     in use at exit: 944 bytes in 2 blocks
+==1409043==   total heap usage: 5 allocs, 3 frees, 25,520 bytes allocated
+==1409043== 
+==1409043== LEAK SUMMARY:
+==1409043==    definitely lost: 0 bytes in 0 blocks
+==1409043==    indirectly lost: 0 bytes in 0 blocks
+==1409043==      possibly lost: 0 bytes in 0 blocks
+==1409043==    still reachable: 944 bytes in 2 blocks
+==1409043==         suppressed: 0 bytes in 0 blocks
+==1409043== Reachable blocks (those to which a pointer was found) are not shown.
+==1409043== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1409043== 
+==1409043== For lists of detected and suppressed errors, rerun with: -s
+==1409043== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

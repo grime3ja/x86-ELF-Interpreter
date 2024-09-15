@@ -21,7 +21,7 @@ int main (int argc, char **argv)
     bool flag_c = false;
     bool flag_t = false;
     bool flag_u = false;
-    int val_f = 0;
+    int val_f = -1;
     char *val_c = NULL;
     char *val_u = NULL;
     char *endpointer = NULL;
@@ -73,6 +73,9 @@ int main (int argc, char **argv)
         printf("%s", "Goodbye!\n");
     }
     if (flag_f) {
+        if (val_f == -1) {
+            printf("%s\n", "Invalid argument.");
+        }
         printf("%d\n", factorial(val_f));
     }
     if (flag_c) {

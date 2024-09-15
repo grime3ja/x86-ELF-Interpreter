@@ -7,7 +7,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/intro",
-      "args": ["-t", "100", "10", "-g"],
+      "args": ["-f", "-g"],
       "cwd": "."
     },
     {
