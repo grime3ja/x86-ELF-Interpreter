@@ -1,7 +1,7 @@
 /*
  * CS 261: Main driver
  *
- * Name: 
+ * Name: Jacob Grimes
  */
 
 #include "p1-check.h"
@@ -19,6 +19,17 @@ void usage (char **argv)
 
 int main (int argc, char **argv)
 {
+    int opt = 0;
+
+    while ((opt = getopt(argc, argv, "-hH:")) != -1) {
+        switch (opt) {
+            case 'h':
+                usage(argv);
+            case 'H':
+            
+        }
+    }
+
     return EXIT_SUCCESS;
 }
 
