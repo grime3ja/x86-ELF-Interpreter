@@ -1,4 +1,4 @@
---- outputs/A_bad_magic_no_H.txt	2024-09-16 13:22:39.363222825 -0400
+--- outputs/A_bad_magic_no_H.txt	2024-09-18 21:47:10.130155485 -0400
 +++ expected/A_bad_magic_no_H.txt	2024-07-10 15:12:08.000000000 -0400
 @@ -0,0 +1 @@
 +Failed to read file

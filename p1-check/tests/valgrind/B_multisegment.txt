@@ -1,14 +1,27 @@
-==382407== Memcheck, a memory error detector
-==382407== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==382407== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==382407== Command: ../y86 -H inputs/multiseg.o
-==382407== 
-==382407== 
-==382407== HEAP SUMMARY:
-==382407==     in use at exit: 0 bytes in 0 blocks
-==382407==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
-==382407== 
-==382407== All heap blocks were freed -- no leaks are possible
-==382407== 
-==382407== For lists of detected and suppressed errors, rerun with: -s
-==382407== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==233324== Memcheck, a memory error detector
+==233324== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==233324== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==233324== Command: ../y86 -H inputs/multiseg.o
+==233324== 
+   1 100 10 4 0 0 464c45 
+Mini-ELF version 1
+Entry point 0x100
+There are 4 program headers, starting at offset 16 (0x10)
+There is no symbol table present
+There is no string table present
+==233324== 
+==233324== HEAP SUMMARY:
+==233324==     in use at exit: 472 bytes in 1 blocks
+==233324==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
+==233324== 
+==233324== LEAK SUMMARY:
+==233324==    definitely lost: 0 bytes in 0 blocks
+==233324==    indirectly lost: 0 bytes in 0 blocks
+==233324==      possibly lost: 0 bytes in 0 blocks
+==233324==    still reachable: 472 bytes in 1 blocks
+==233324==         suppressed: 0 bytes in 0 blocks
+==233324== Reachable blocks (those to which a pointer was found) are not shown.
+==233324== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==233324== 
+==233324== For lists of detected and suppressed errors, rerun with: -s
+==233324== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

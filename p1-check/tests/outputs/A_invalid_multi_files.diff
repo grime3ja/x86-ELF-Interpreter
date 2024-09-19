@@ -1,6 +1,12 @@
---- outputs/A_invalid_multi_files.txt	2024-09-16 13:22:35.489026346 -0400
+--- outputs/A_invalid_multi_files.txt	2024-09-18 21:47:06.146953109 -0400
 +++ expected/A_invalid_multi_files.txt	2024-07-10 15:12:08.000000000 -0400
-@@ -0,0 +1,4 @@
+@@ -1,6 +1,4 @@
+-   1 100 10 2 58 70 464c45 
+-Mini-ELF version 1
+-Entry point 0x100
+-There are 2 program headers, starting at offset 16 (0x10)
+-There is a symbol table starting at offset 88 (0x58)
+-There is a string table starting at offset 112 (0x70)
 +Usage: ../y86 <option(s)> mini-elf-file
 + Options are:
 +  -h      Display usage

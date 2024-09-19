@@ -1,14 +1,27 @@
-==382310== Memcheck, a memory error detector
-==382310== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==382310== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==382310== Command: ../y86 -H inputs/simple.o
-==382310== 
-==382310== 
-==382310== HEAP SUMMARY:
-==382310==     in use at exit: 0 bytes in 0 blocks
-==382310==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
-==382310== 
-==382310== All heap blocks were freed -- no leaks are possible
-==382310== 
-==382310== For lists of detected and suppressed errors, rerun with: -s
-==382310== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==233249== Memcheck, a memory error detector
+==233249== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==233249== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==233249== Command: ../y86 -H inputs/simple.o
+==233249== 
+   1 100 10 2 58 70 464c45 
+Mini-ELF version 1
+Entry point 0x100
+There are 2 program headers, starting at offset 16 (0x10)
+There is a symbol table starting at offset 88 (0x58)
+There is a string table starting at offset 112 (0x70)
+==233249== 
+==233249== HEAP SUMMARY:
+==233249==     in use at exit: 472 bytes in 1 blocks
+==233249==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
+==233249== 
+==233249== LEAK SUMMARY:
+==233249==    definitely lost: 0 bytes in 0 blocks
+==233249==    indirectly lost: 0 bytes in 0 blocks
+==233249==      possibly lost: 0 bytes in 0 blocks
+==233249==    still reachable: 472 bytes in 1 blocks
+==233249==         suppressed: 0 bytes in 0 blocks
+==233249== Reachable blocks (those to which a pointer was found) are not shown.
+==233249== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==233249== 
+==233249== For lists of detected and suppressed errors, rerun with: -s
+==233249== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
