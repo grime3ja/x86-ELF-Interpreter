@@ -1,22 +1,22 @@
-==3734464== Memcheck, a memory error detector
-==3734464== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3734464== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3734464== Command: ../y86 -H inputs/bad-short_header.o
-==3734464== 
+==3947951== Memcheck, a memory error detector
+==3947951== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3947951== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3947951== Command: ../y86 -H inputs/bad-short_header.o
+==3947951== 
 Failed to read file
-==3734464== 
-==3734464== HEAP SUMMARY:
-==3734464==     in use at exit: 472 bytes in 1 blocks
-==3734464==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
-==3734464== 
-==3734464== LEAK SUMMARY:
-==3734464==    definitely lost: 0 bytes in 0 blocks
-==3734464==    indirectly lost: 0 bytes in 0 blocks
-==3734464==      possibly lost: 0 bytes in 0 blocks
-==3734464==    still reachable: 472 bytes in 1 blocks
-==3734464==         suppressed: 0 bytes in 0 blocks
-==3734464== Reachable blocks (those to which a pointer was found) are not shown.
-==3734464== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3734464== 
-==3734464== For lists of detected and suppressed errors, rerun with: -s
-==3734464== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3947951== 
+==3947951== HEAP SUMMARY:
+==3947951==     in use at exit: 472 bytes in 1 blocks
+==3947951==   total heap usage: 3 allocs, 2 frees, 16,856 bytes allocated
+==3947951== 
+==3947951== LEAK SUMMARY:
+==3947951==    definitely lost: 0 bytes in 0 blocks
+==3947951==    indirectly lost: 0 bytes in 0 blocks
+==3947951==      possibly lost: 0 bytes in 0 blocks
+==3947951==    still reachable: 472 bytes in 1 blocks
+==3947951==         suppressed: 0 bytes in 0 blocks
+==3947951== Reachable blocks (those to which a pointer was found) are not shown.
+==3947951== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3947951== 
+==3947951== For lists of detected and suppressed errors, rerun with: -s
+==3947951== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
