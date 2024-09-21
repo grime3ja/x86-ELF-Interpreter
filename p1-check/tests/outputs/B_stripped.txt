@@ -1,4 +1,4 @@
-   1 100 10 2 0 0 464c45 
+01 00 00 01 10 00 02 00  00 00 00 00 45 4c 46 00
 Mini-ELF version 1
 Entry point 0x100
 There are 2 program headers, starting at offset 16 (0x10)

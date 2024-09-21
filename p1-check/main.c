@@ -21,25 +21,39 @@ int main (int argc, char **argv)
 {
     int opt = 0;
 
-    char *filename = NULL;
+    // char *filename = NULL;
     bool h_flag = false;
 
-    while ((opt = getopt(argc, argv, "-hH:")) != -1) {
+    while ((opt = getopt(argc, argv, "-hH")) != -1) {
         switch (opt) {
             case 'h':
                 usage(argv);
                 exit(EXIT_SUCCESS);
             case 'H':
                 h_flag = true;
-                filename = optarg;
+                break;
+            case '?':
+                if (optopt == 'H') {
+                    // usage(argv);
+                    // exit(EXIT_FAILURE);
+                } else {
+                    printf("%s\n", "Failed to read file");
+                    exit(EXIT_FAILURE);
+                }
         }
     }
-    // if (optind >= argc) {
-    //     usage(argv);
-    //     exit(EXIT_FAILURE);
-    // }
+    // multiple parameters
+    if (argc > 3) {
+        usage(argv);
+        exit(EXIT_FAILURE);
+    }
+    if (optind > argc) {
+        printf("Failed to read file\n");
+        exit(EXIT_FAILURE);
+    }
     if (h_flag) {
-        FILE *file = fopen(filename, "r");
+        // filename = argv[optind];
+        FILE *file = fopen(argv[optind - 1], "r");
         elf_hdr_t hdr;
         if (!read_header(file, &hdr)) {
             printf("%s\n", "Failed to read file");
@@ -47,6 +61,9 @@ int main (int argc, char **argv)
         }
         dump_header(&hdr);
     }
+    // else {
+    //     printf("%s\n", "Failed to read file");
+    // }
 
     return EXIT_SUCCESS;
 }
