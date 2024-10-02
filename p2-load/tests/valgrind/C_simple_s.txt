@@ -1,0 +1,24 @@
+==2660959== Memcheck, a memory error detector
+==2660959== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2660959== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2660959== Command: ../y86 -s inputs/simple.o
+==2660959== 
+ Segment   Offset    Size      VirtAddr  Type      Flags
+  00       0x0038    0x0015    0x0100    CODE      R X
+  01       0x004d    0x000b    0x0200    DATA      RW 
+==2660959== 
+==2660959== HEAP SUMMARY:
+==2660959==     in use at exit: 472 bytes in 1 blocks
+==2660959==   total heap usage: 4 allocs, 3 frees, 16,896 bytes allocated
+==2660959== 
+==2660959== LEAK SUMMARY:
+==2660959==    definitely lost: 0 bytes in 0 blocks
+==2660959==    indirectly lost: 0 bytes in 0 blocks
+==2660959==      possibly lost: 0 bytes in 0 blocks
+==2660959==    still reachable: 472 bytes in 1 blocks
+==2660959==         suppressed: 0 bytes in 0 blocks
+==2660959== Reachable blocks (those to which a pointer was found) are not shown.
+==2660959== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2660959== 
+==2660959== For lists of detected and suppressed errors, rerun with: -s
+==2660959== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
