@@ -1,26 +1,26 @@
-==2661041== Memcheck, a memory error detector
-==2661041== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2661041== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2661041== Command: ../y86 -s inputs/moreflags.o
-==2661041== 
+==3350526== Memcheck, a memory error detector
+==3350526== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3350526== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3350526== Command: ../y86 -s inputs/moreflags.o
+==3350526== 
  Segment   Offset    Size      VirtAddr  Type      Flags
-  00       0x0060    0x0015    0x0100    DATA      RW 
-  01       0x0075    0x000b    0x0200    DATA      RW 
-  02       0x0080    0x0015    0x0300    DATA      RW 
-  03       0x0090    0x000b    0x0200    DATA      RW 
-==2661041== 
-==2661041== HEAP SUMMARY:
-==2661041==     in use at exit: 472 bytes in 1 blocks
-==2661041==   total heap usage: 4 allocs, 3 frees, 16,936 bytes allocated
-==2661041== 
-==2661041== LEAK SUMMARY:
-==2661041==    definitely lost: 0 bytes in 0 blocks
-==2661041==    indirectly lost: 0 bytes in 0 blocks
-==2661041==      possibly lost: 0 bytes in 0 blocks
-==2661041==    still reachable: 472 bytes in 1 blocks
-==2661041==         suppressed: 0 bytes in 0 blocks
-==2661041== Reachable blocks (those to which a pointer was found) are not shown.
-==2661041== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==2661041== 
-==2661041== For lists of detected and suppressed errors, rerun with: -s
-==2661041== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+  00       0x0060    0x0015    0x0100    DATA       W 
+  01       0x0075    0x000b    0x0200    DATA        X
+  02       0x0080    0x0015    0x0300    DATA       WX
+  03       0x0090    0x000b    0x0200    DATA      RWX
+==3350526== 
+==3350526== HEAP SUMMARY:
+==3350526==     in use at exit: 472 bytes in 1 blocks
+==3350526==   total heap usage: 5 allocs, 4 frees, 21,032 bytes allocated
+==3350526== 
+==3350526== LEAK SUMMARY:
+==3350526==    definitely lost: 0 bytes in 0 blocks
+==3350526==    indirectly lost: 0 bytes in 0 blocks
+==3350526==      possibly lost: 0 bytes in 0 blocks
+==3350526==    still reachable: 472 bytes in 1 blocks
+==3350526==         suppressed: 0 bytes in 0 blocks
+==3350526== Reachable blocks (those to which a pointer was found) are not shown.
+==3350526== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3350526== 
+==3350526== For lists of detected and suppressed errors, rerun with: -s
+==3350526== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

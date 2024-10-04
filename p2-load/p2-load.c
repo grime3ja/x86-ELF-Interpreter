@@ -10,53 +10,102 @@
  *                         REQUIRED FUNCTIONS
  *********************************************************************/
 
+/*
+ * reads an individual program header from a file starting at a given offset.
+ */
 bool read_phdr (FILE *file, uint16_t offset, elf_phdr_t *phdr)
 {
     if (file == NULL || phdr == NULL) {
         return false;
     }
     fseek(file, offset, SEEK_SET);
-    return fread(phdr, sizeof(elf_phdr_t), 1, file) == 1 && phdr->magic == 0xdeadbeef;
+    return fread(phdr, sizeof(elf_phdr_t), 1, file) == 1 && 
+        phdr->magic == 0xdeadbeef;
 }
 
 bool load_segment (FILE *file, byte_t *memory, elf_phdr_t *phdr)
 {
-    if (file == NULL || memory == NULL || phdr == NULL || phdr->p_vaddr > sizeof(memory)) {
+    if (file == NULL || memory == NULL || phdr == NULL) {
         return false;
     }
     fseek(file, phdr->p_offset, SEEK_SET);
-    int ret = fread(&memory[phdr->p_vaddr], phdr->p_size, 1, file);
-    return ret == 1 && (phdr->p_type == DATA || phdr->p_type == CODE);
+    if (phdr->p_size == 0) {
+        return true;
+    }
+    /*int ret =*/ return fread(&memory[phdr->p_vaddr], phdr->p_size, 1, file);
+    // return ret == 1 && (phdr->p_type == DATA || phdr->p_type == CODE);
 }
 
 /**********************************************************************
  *                         OPTIONAL FUNCTIONS
  *********************************************************************/
 
+/*
+ * prints every header in a program header array.
+ */
 void dump_phdrs (uint16_t numphdrs, elf_phdr_t *phdrs)
 {
     // -s flag
     printf(" Segment   Offset    Size      VirtAddr  Type      Flags\n");
     for (int i = 0; i < numphdrs; i++) {
-        printf("  %02x       ", i);
-        printf("0x%04x    ", phdrs[i].p_offset);
-        printf("0x%04x    ", phdrs[i].p_size);
-        printf("0x%04x    ", phdrs[i].p_vaddr);
-        // if type is CODE else DATA
-        printf("%s      ", (DATA + phdrs[i].p_type) == 0 ? "DATA" : "CODE");
-        // if flag is 0x4 (R  ), 0x5 (R X), 0x6 (RW )
-        if (phdrs[i].p_flags == 0x4) {
-            printf("R  ");
-        } else if (phdrs[i].p_flags == 0x5) {
-            printf("R X");
-        } else {
-            printf("RW ");
+        printf("%2s%02x%7s", " ", i, " ");
+        printf("0x%04x%4s", phdrs[i].p_offset, " ");
+        printf("0x%04x%4s", phdrs[i].p_size, " ");
+        printf("0x%04x%4s", phdrs[i].p_vaddr, " ");
+        switch (DATA + phdrs[i].p_type)
+        {
+            case (0):
+                printf("%s%6s", "DATA", " ");
+                break;
+            case (1):
+                printf("%s%6s", "CODE", " ");
+                break;
+            case (2):
+                printf("%s%5s", "STACK", " ");
+                break;
+            case (3):
+                printf("%s%6s", "HEAP", " ");
+                break;
+            default:
+                printf("%s%3s", "UNKNOWN", " ");
+                break;
         }
+
+        // in base 2, is the 2^2 bit active?
+        (phdrs[i].p_flags & 1 << 2) ? printf("R") : printf(" ");
+        // in base 2, is the 2^1 bit active?
+        (phdrs[i].p_flags & 1 << 1) ? printf("W") : printf(" ");
+        // in base 2, is the 2^0 bit active?
+        (phdrs[i].p_flags & 1) ? printf("X") : printf(" ");
         printf("\n");
     }
 }
 
 void dump_memory (byte_t *memory, uint16_t start, uint16_t end)
 {
+    printf("Contents of memory from %04x to %04x:\n", start, end);
+    int temp = 0;
+    for (int i = start - (start % 16); i < end; i += 0x10) {
+        printf("%2s%04x%1s", " ", i, " ");
+        temp = 0;
+        for (int j = i; j < i + 16 && j < end; j++) {
+            while (j < start) {
+                temp > 0 && temp % 8 == 0 ? 
+                    printf("%4s", " ") : printf("%3s", " ");
+                j++;
+                temp++;
+            }
+
+            if (j - i < end) {
+                printf(" ");
+            }
+            if (j - i > 0 && temp % 8 == 0) {
+                printf(" ");
+            }
+            printf("%02x", memory[j]);
+            temp++;
+        }
+        printf("\n");
+    }
 }
 

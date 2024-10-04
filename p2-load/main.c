@@ -25,27 +25,12 @@ void usage (char **argv)
 
 int main (int argc, char **argv)
 {
-    // FILE *fp = fopen ("inputs/simple.o", "r");
-    // byte_t *memory = (byte_t*) calloc (32, sizeof (uint8_t));
-    // elf_phdr_t phdr;
-    // phdr.p_offset = 0x30;
-    // phdr.p_vaddr = 0x10;
-    // phdr.p_size = 0x10;
-    // phdr.p_type = DATA;
-    // phdr.p_flags = 0x6;      // 110
-    // phdr.magic = 0xDEADBEEF;
-    // uint8_t expected[] = { 0, 0, 6, 0, 0xef, 0xbe, 0xad, 0xde,
-    //     0x30, 0xf3, 0xf, 0, 0, 0, 0x20, 0x31 };
-    // size_t i = 0;
-    // bool rc = load_segment (fp, memory, &phdr);
-
-
     int opt = 0;
 
     bool h_flag = false;
     bool s_flag = false;
-    // bool m_flag = false;
-    // bool upper_m_flag = false;
+    bool m_flag = false;
+    bool upper_m_flag = false;
 
     while ((opt = getopt(argc, argv, "-hHafsmM")) != -1) {
         switch (opt) {
@@ -58,21 +43,21 @@ int main (int argc, char **argv)
             case 'a':
                 h_flag = true;
                 s_flag = true;
-                // m_flag = true;
+                m_flag = true;
                 break;
             case 'f':
                 h_flag = true;
                 s_flag = true;
-                // upper_m_flag = true;
+                upper_m_flag = true;
                 break;
             case 's':
                 s_flag = true;
                 break;
-            // case 'm':
-                // m_flag = true;
+            case 'm':
+                m_flag = true;
                 break;
-            // case 'M':
-                // upper_m_flag = true;
+            case 'M':
+                upper_m_flag = true;
                 break;
         }
     }
@@ -97,6 +82,7 @@ int main (int argc, char **argv)
     }
 
     elf_phdr_t *phdr = (elf_phdr_t *) calloc(hdr.e_num_phdr, sizeof(elf_phdr_t));
+    byte_t *mem = (byte_t *) calloc(MEMSIZE, 1);
     int offset = hdr.e_phdr_start;
     for (int i = 0; i < hdr.e_num_phdr; i++) {
         if (!read_phdr(file, offset, &phdr[i])) {
@@ -105,23 +91,36 @@ int main (int argc, char **argv)
         }
         offset += 20;
     }
-    // if (!load_segment(file, mem, &phdr)) {
-    //     printf("Failed to read file\n");
-    //     exit(EXIT_FAILURE);
-    // }
+    for (int i = 0; i < hdr.e_num_phdr; i++) {
+        if (!load_segment(file, mem, &phdr[i])) {
+            printf("Failed to read file\n");
+            exit(EXIT_FAILURE);
+        }
+    }
 
+    if (m_flag && upper_m_flag) {
+        usage(argv);
+        exit(EXIT_FAILURE);
+    }
     if (h_flag) {
         dump_header(&hdr);
     }
     if (s_flag) {
         dump_phdrs(hdr.e_num_phdr, phdr);
     }
-    // segments
+    if (m_flag) {
+        for (int i = 0; i < hdr.e_num_phdr; i++) {
+            dump_memory(mem, phdr[i].p_vaddr, phdr[i].p_vaddr + phdr[i].p_size);
+        }
+    }
+    if (upper_m_flag) {
+        dump_memory(mem, 0, MEMSIZE);
+    }
 
     // contents of memory
 
     free(phdr);
-    // free(mem);
+    free(mem);
     
     return EXIT_SUCCESS;
 }
