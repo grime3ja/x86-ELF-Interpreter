@@ -81,8 +81,7 @@ int main (int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    elf_phdr_t *phdr = 
-        (elf_phdr_t *) calloc(hdr.e_num_phdr, sizeof(elf_phdr_t));
+    elf_phdr_t *phdr = (elf_phdr_t *) calloc(hdr.e_num_phdr, sizeof(elf_phdr_t));
     byte_t *mem = (byte_t *) calloc(MEMSIZE, 1);
     int offset = hdr.e_phdr_start;
     for (int i = 0; i < hdr.e_num_phdr; i++) {
@@ -111,8 +110,7 @@ int main (int argc, char **argv)
     }
     if (m_flag) {
         for (int i = 0; i < hdr.e_num_phdr; i++) {
-            dump_memory
-                (mem, phdr[i].p_vaddr, phdr[i].p_vaddr + phdr[i].p_size);
+            dump_memory(mem, phdr[i].p_vaddr, phdr[i].p_vaddr + phdr[i].p_size);
         }
     }
     if (upper_m_flag) {
@@ -123,7 +121,7 @@ int main (int argc, char **argv)
 
     free(phdr);
     free(mem);
-
+    
     return EXIT_SUCCESS;
 }
 

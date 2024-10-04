@@ -1,21 +1,21 @@
-==3350711== Memcheck, a memory error detector
-==3350711== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3350711== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3350711== Command: ../y86 inputs/simple.o
-==3350711== 
-==3350711== 
-==3350711== HEAP SUMMARY:
-==3350711==     in use at exit: 472 bytes in 1 blocks
-==3350711==   total heap usage: 4 allocs, 3 frees, 12,800 bytes allocated
-==3350711== 
-==3350711== LEAK SUMMARY:
-==3350711==    definitely lost: 0 bytes in 0 blocks
-==3350711==    indirectly lost: 0 bytes in 0 blocks
-==3350711==      possibly lost: 0 bytes in 0 blocks
-==3350711==    still reachable: 472 bytes in 1 blocks
-==3350711==         suppressed: 0 bytes in 0 blocks
-==3350711== Reachable blocks (those to which a pointer was found) are not shown.
-==3350711== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3350711== 
-==3350711== For lists of detected and suppressed errors, rerun with: -s
-==3350711== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3427459== Memcheck, a memory error detector
+==3427459== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3427459== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3427459== Command: ../y86 inputs/simple.o
+==3427459== 
+==3427459== 
+==3427459== HEAP SUMMARY:
+==3427459==     in use at exit: 472 bytes in 1 blocks
+==3427459==   total heap usage: 4 allocs, 3 frees, 12,800 bytes allocated
+==3427459== 
+==3427459== LEAK SUMMARY:
+==3427459==    definitely lost: 0 bytes in 0 blocks
+==3427459==    indirectly lost: 0 bytes in 0 blocks
+==3427459==      possibly lost: 0 bytes in 0 blocks
+==3427459==    still reachable: 472 bytes in 1 blocks
+==3427459==         suppressed: 0 bytes in 0 blocks
+==3427459== Reachable blocks (those to which a pointer was found) are not shown.
+==3427459== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3427459== 
+==3427459== For lists of detected and suppressed errors, rerun with: -s
+==3427459== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

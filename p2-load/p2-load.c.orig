@@ -19,8 +19,8 @@ bool read_phdr (FILE *file, uint16_t offset, elf_phdr_t *phdr)
         return false;
     }
     fseek(file, offset, SEEK_SET);
-    return fread(phdr, sizeof(elf_phdr_t), 1, file) == 1 &&
-           phdr->magic == 0xdeadbeef;
+    return fread(phdr, sizeof(elf_phdr_t), 1, file) == 1 && 
+        phdr->magic == 0xdeadbeef;
 }
 
 bool load_segment (FILE *file, byte_t *memory, elf_phdr_t *phdr)
@@ -55,7 +55,8 @@ void dump_phdrs (uint16_t numphdrs, elf_phdr_t *phdrs)
         printf("0x%04x%4s", phdrs[i].p_offset, " ");
         printf("0x%04x%4s", phdrs[i].p_size, " ");
         printf("0x%04x%4s", phdrs[i].p_vaddr, " ");
-        switch (DATA + phdrs[i].p_type) {
+        switch (DATA + phdrs[i].p_type)
+        {
             case (0):
                 printf("%s%6s", "DATA", " ");
                 break;
@@ -93,8 +94,8 @@ void dump_memory (byte_t *memory, uint16_t start, uint16_t end)
         for (int j = i; j < i + 16 && j < end; j++) {
             // leading 0's?
             while (j < start) {
-                temp > 0 && temp % 8 == 0 ?
-                printf("%4s", " ") : printf("%3s", " ");
+                temp > 0 && temp % 8 == 0 ? 
+                    printf("%4s", " ") : printf("%3s", " ");
                 j++;
                 temp++;
             }

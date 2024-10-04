@@ -1,8 +1,8 @@
-==3350622== Memcheck, a memory error detector
-==3350622== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3350622== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3350622== Command: ../y86 -a inputs/stack.o
-==3350622== 
+==3427135== Memcheck, a memory error detector
+==3427135== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3427135== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3427135== Command: ../y86 -a inputs/stack.o
+==3427135== 
 01 00 00 01 10 00 05 00  f4 00 16 01 45 4c 46 00
 Mini-ELF version 1
 Entry point 0x100
@@ -30,19 +30,19 @@ Contents of memory from 0400 to 0423:
   0410  00 79 61 64 64 61 20 79  61 64 64 61 20 79 61 64
   0420  64 61 00
 Contents of memory from 0f00 to 0f00:
-==3350622== 
-==3350622== HEAP SUMMARY:
-==3350622==     in use at exit: 472 bytes in 1 blocks
-==3350622==   total heap usage: 5 allocs, 4 frees, 21,052 bytes allocated
-==3350622== 
-==3350622== LEAK SUMMARY:
-==3350622==    definitely lost: 0 bytes in 0 blocks
-==3350622==    indirectly lost: 0 bytes in 0 blocks
-==3350622==      possibly lost: 0 bytes in 0 blocks
-==3350622==    still reachable: 472 bytes in 1 blocks
-==3350622==         suppressed: 0 bytes in 0 blocks
-==3350622== Reachable blocks (those to which a pointer was found) are not shown.
-==3350622== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3350622== 
-==3350622== For lists of detected and suppressed errors, rerun with: -s
-==3350622== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3427135== 
+==3427135== HEAP SUMMARY:
+==3427135==     in use at exit: 472 bytes in 1 blocks
+==3427135==   total heap usage: 5 allocs, 4 frees, 21,052 bytes allocated
+==3427135== 
+==3427135== LEAK SUMMARY:
+==3427135==    definitely lost: 0 bytes in 0 blocks
+==3427135==    indirectly lost: 0 bytes in 0 blocks
+==3427135==      possibly lost: 0 bytes in 0 blocks
+==3427135==    still reachable: 472 bytes in 1 blocks
+==3427135==         suppressed: 0 bytes in 0 blocks
+==3427135== Reachable blocks (those to which a pointer was found) are not shown.
+==3427135== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3427135== 
+==3427135== For lists of detected and suppressed errors, rerun with: -s
+==3427135== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -1,8 +1,8 @@
-==3350804== Memcheck, a memory error detector
-==3350804== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3350804== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3350804== Command: ../y86 -m -M inputs/simple.o
-==3350804== 
+==3427806== Memcheck, a memory error detector
+==3427806== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3427806== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3427806== Command: ../y86 -m -M inputs/simple.o
+==3427806== 
 Usage: ../y86 <option(s)> mini-elf-file
  Options are:
   -h      Display usage
@@ -12,19 +12,19 @@ Usage: ../y86 <option(s)> mini-elf-file
   -s      Show the program headers
   -m      Show the memory contents (brief)
   -M      Show the memory contents (full)
-==3350804== 
-==3350804== HEAP SUMMARY:
-==3350804==     in use at exit: 4,608 bytes in 3 blocks
-==3350804==   total heap usage: 5 allocs, 2 frees, 20,992 bytes allocated
-==3350804== 
-==3350804== LEAK SUMMARY:
-==3350804==    definitely lost: 0 bytes in 0 blocks
-==3350804==    indirectly lost: 0 bytes in 0 blocks
-==3350804==      possibly lost: 0 bytes in 0 blocks
-==3350804==    still reachable: 4,608 bytes in 3 blocks
-==3350804==         suppressed: 0 bytes in 0 blocks
-==3350804== Reachable blocks (those to which a pointer was found) are not shown.
-==3350804== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3350804== 
-==3350804== For lists of detected and suppressed errors, rerun with: -s
-==3350804== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3427806== 
+==3427806== HEAP SUMMARY:
+==3427806==     in use at exit: 4,608 bytes in 3 blocks
+==3427806==   total heap usage: 5 allocs, 2 frees, 20,992 bytes allocated
+==3427806== 
+==3427806== LEAK SUMMARY:
+==3427806==    definitely lost: 0 bytes in 0 blocks
+==3427806==    indirectly lost: 0 bytes in 0 blocks
+==3427806==      possibly lost: 0 bytes in 0 blocks
+==3427806==    still reachable: 4,608 bytes in 3 blocks
+==3427806==         suppressed: 0 bytes in 0 blocks
+==3427806== Reachable blocks (those to which a pointer was found) are not shown.
+==3427806== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3427806== 
+==3427806== For lists of detected and suppressed errors, rerun with: -s
+==3427806== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

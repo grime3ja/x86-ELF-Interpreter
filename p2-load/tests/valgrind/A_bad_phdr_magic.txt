@@ -1,22 +1,22 @@
-==3350685== Memcheck, a memory error detector
-==3350685== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3350685== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3350685== Command: ../y86 -s inputs/bad-phdr_magic.o
-==3350685== 
+==3427419== Memcheck, a memory error detector
+==3427419== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3427419== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3427419== Command: ../y86 -s inputs/bad-phdr_magic.o
+==3427419== 
 Failed to read file
-==3350685== 
-==3350685== HEAP SUMMARY:
-==3350685==     in use at exit: 4,608 bytes in 3 blocks
-==3350685==   total heap usage: 5 allocs, 2 frees, 20,992 bytes allocated
-==3350685== 
-==3350685== LEAK SUMMARY:
-==3350685==    definitely lost: 0 bytes in 0 blocks
-==3350685==    indirectly lost: 0 bytes in 0 blocks
-==3350685==      possibly lost: 0 bytes in 0 blocks
-==3350685==    still reachable: 4,608 bytes in 3 blocks
-==3350685==         suppressed: 0 bytes in 0 blocks
-==3350685== Reachable blocks (those to which a pointer was found) are not shown.
-==3350685== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3350685== 
-==3350685== For lists of detected and suppressed errors, rerun with: -s
-==3350685== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3427419== 
+==3427419== HEAP SUMMARY:
+==3427419==     in use at exit: 4,608 bytes in 3 blocks
+==3427419==   total heap usage: 5 allocs, 2 frees, 20,992 bytes allocated
+==3427419== 
+==3427419== LEAK SUMMARY:
+==3427419==    definitely lost: 0 bytes in 0 blocks
+==3427419==    indirectly lost: 0 bytes in 0 blocks
+==3427419==      possibly lost: 0 bytes in 0 blocks
+==3427419==    still reachable: 4,608 bytes in 3 blocks
+==3427419==         suppressed: 0 bytes in 0 blocks
+==3427419== Reachable blocks (those to which a pointer was found) are not shown.
+==3427419== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3427419== 
+==3427419== For lists of detected and suppressed errors, rerun with: -s
+==3427419== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
