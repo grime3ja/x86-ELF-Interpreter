@@ -18,11 +18,19 @@ bool read_phdr (FILE *file, uint16_t offset, elf_phdr_t *phdr)
     if (file == NULL || phdr == NULL) {
         return false;
     }
+    // seek the file until you reach the offset.
     fseek(file, offset, SEEK_SET);
+
+    // return true if it reads the file successfully and the correct program
+    // header is in the file (deadbeef). false otherwise.
     return fread(phdr, sizeof(elf_phdr_t), 1, file) == 1 &&
            phdr->magic == 0xdeadbeef;
 }
 
+/*
+ * loads a segment from the file into memory 
+ * using data from the program header.
+ */
 bool load_segment (FILE *file, byte_t *memory, elf_phdr_t *phdr)
 {
     if (file == NULL || memory == NULL || phdr == NULL) {
@@ -32,11 +40,10 @@ bool load_segment (FILE *file, byte_t *memory, elf_phdr_t *phdr)
     if (phdr->p_size == 0) {
         return true;
     }
-    if (phdr->p_vaddr > MEMSIZE) {
-        return false;
-    }
-    int ret = fread(&memory[phdr->p_vaddr], phdr->p_size, 1, file);
-    return ret;
+    // true if the virtual address space does not exceed MEMSIZE
+    // and if the file is read into memory successfully
+    return phdr->p_vaddr <= MEMSIZE &&
+        fread(&memory[phdr->p_vaddr], phdr->p_size, 1, file);
 }
 
 /**********************************************************************
@@ -48,9 +55,10 @@ bool load_segment (FILE *file, byte_t *memory, elf_phdr_t *phdr)
  */
 void dump_phdrs (uint16_t numphdrs, elf_phdr_t *phdrs)
 {
-    // -s flag
     printf(" Segment   Offset    Size      VirtAddr  Type      Flags\n");
     for (int i = 0; i < numphdrs; i++) {
+        // use of %s flag throughout the functions to ensure there are no
+        // spacing errors
         printf("%2s%02x%7s", " ", i, " ");
         printf("0x%04x%4s", phdrs[i].p_offset, " ");
         printf("0x%04x%4s", phdrs[i].p_size, " ");
@@ -83,6 +91,9 @@ void dump_phdrs (uint16_t numphdrs, elf_phdr_t *phdrs)
     }
 }
 
+/*
+ * prints the contents of memory to standard output from start to end.
+ */
 void dump_memory (byte_t *memory, uint16_t start, uint16_t end)
 {
     printf("Contents of memory from %04x to %04x:\n", start, end);
@@ -99,9 +110,11 @@ void dump_memory (byte_t *memory, uint16_t start, uint16_t end)
                 temp++;
             }
 
+            // space every two numbers
             if (j - i < end) {
                 printf(" ");
             }
+            // double space every 8 bytes
             if (j - i > 0 && temp % 8 == 0) {
                 printf(" ");
             }

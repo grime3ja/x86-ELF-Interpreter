@@ -1,8 +1,8 @@
-==3427806== Memcheck, a memory error detector
-==3427806== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3427806== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3427806== Command: ../y86 -m -M inputs/simple.o
-==3427806== 
+==26599== Memcheck, a memory error detector
+==26599== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==26599== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==26599== Command: ../y86 -m -M inputs/simple.o
+==26599== 
 Usage: ../y86 <option(s)> mini-elf-file
  Options are:
   -h      Display usage
@@ -12,19 +12,19 @@ Usage: ../y86 <option(s)> mini-elf-file
   -s      Show the program headers
   -m      Show the memory contents (brief)
   -M      Show the memory contents (full)
-==3427806== 
-==3427806== HEAP SUMMARY:
-==3427806==     in use at exit: 4,608 bytes in 3 blocks
-==3427806==   total heap usage: 5 allocs, 2 frees, 20,992 bytes allocated
-==3427806== 
-==3427806== LEAK SUMMARY:
-==3427806==    definitely lost: 0 bytes in 0 blocks
-==3427806==    indirectly lost: 0 bytes in 0 blocks
-==3427806==      possibly lost: 0 bytes in 0 blocks
-==3427806==    still reachable: 4,608 bytes in 3 blocks
-==3427806==         suppressed: 0 bytes in 0 blocks
-==3427806== Reachable blocks (those to which a pointer was found) are not shown.
-==3427806== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3427806== 
-==3427806== For lists of detected and suppressed errors, rerun with: -s
-==3427806== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==26599== 
+==26599== HEAP SUMMARY:
+==26599==     in use at exit: 4,608 bytes in 3 blocks
+==26599==   total heap usage: 5 allocs, 2 frees, 20,992 bytes allocated
+==26599== 
+==26599== LEAK SUMMARY:
+==26599==    definitely lost: 0 bytes in 0 blocks
+==26599==    indirectly lost: 0 bytes in 0 blocks
+==26599==      possibly lost: 0 bytes in 0 blocks
+==26599==    still reachable: 4,608 bytes in 3 blocks
+==26599==         suppressed: 0 bytes in 0 blocks
+==26599== Reachable blocks (those to which a pointer was found) are not shown.
+==26599== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==26599== 
+==26599== For lists of detected and suppressed errors, rerun with: -s
+==26599== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -1,24 +1,24 @@
-==3426905== Memcheck, a memory error detector
-==3426905== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3426905== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3426905== Command: ../y86 -s inputs/simple.o
-==3426905== 
+==26323== Memcheck, a memory error detector
+==26323== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==26323== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==26323== Command: ../y86 -s inputs/simple.o
+==26323== 
  Segment   Offset    Size      VirtAddr  Type      Flags
   00       0x0038    0x0015    0x0100    CODE      R X
   01       0x004d    0x000b    0x0200    DATA      RW 
-==3426905== 
-==3426905== HEAP SUMMARY:
-==3426905==     in use at exit: 472 bytes in 1 blocks
-==3426905==   total heap usage: 5 allocs, 4 frees, 20,992 bytes allocated
-==3426905== 
-==3426905== LEAK SUMMARY:
-==3426905==    definitely lost: 0 bytes in 0 blocks
-==3426905==    indirectly lost: 0 bytes in 0 blocks
-==3426905==      possibly lost: 0 bytes in 0 blocks
-==3426905==    still reachable: 472 bytes in 1 blocks
-==3426905==         suppressed: 0 bytes in 0 blocks
-==3426905== Reachable blocks (those to which a pointer was found) are not shown.
-==3426905== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3426905== 
-==3426905== For lists of detected and suppressed errors, rerun with: -s
-==3426905== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==26323== 
+==26323== HEAP SUMMARY:
+==26323==     in use at exit: 472 bytes in 1 blocks
+==26323==   total heap usage: 5 allocs, 4 frees, 20,992 bytes allocated
+==26323== 
+==26323== LEAK SUMMARY:
+==26323==    definitely lost: 0 bytes in 0 blocks
+==26323==    indirectly lost: 0 bytes in 0 blocks
+==26323==      possibly lost: 0 bytes in 0 blocks
+==26323==    still reachable: 472 bytes in 1 blocks
+==26323==         suppressed: 0 bytes in 0 blocks
+==26323== Reachable blocks (those to which a pointer was found) are not shown.
+==26323== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==26323== 
+==26323== For lists of detected and suppressed errors, rerun with: -s
+==26323== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
