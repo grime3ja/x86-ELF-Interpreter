@@ -1,0 +1,3 @@
+.pos 0x100 code
+_start:
+    ret
