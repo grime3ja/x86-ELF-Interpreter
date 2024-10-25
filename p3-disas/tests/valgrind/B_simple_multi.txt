@@ -1,0 +1,76 @@
+==3055056== Memcheck, a memory error detector
+==3055056== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3055056== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3055056== Command: ../y86 -d inputs/simple_multi.o
+==3055056== 
+==3055056== Use of uninitialised value of size 8
+==3055056==    at 0x48CB042: _itoa_word (_itoa.c:184)
+==3055056==    by 0x48D5C8B: __printf_buffer (vfprintf-process-arg.c:155)
+==3055056==    by 0x48D772A: __vfprintf_internal (vfprintf-internal.c:1544)
+==3055056==    by 0x48CC1A2: printf (printf.c:33)
+==3055056==    by 0x109C23: disassemble_code (p3-disas.c:138)
+==3055056==    by 0x109719: main (main.c:139)
+==3055056==  Uninitialised value was created by a stack allocation
+==3055056==    at 0x10974D: fetch (p3-disas.c:14)
+==3055056== 
+==3055056== Conditional jump or move depends on uninitialised value(s)
+==3055056==    at 0x48CB054: _itoa_word (_itoa.c:184)
+==3055056==    by 0x48D5C8B: __printf_buffer (vfprintf-process-arg.c:155)
+==3055056==    by 0x48D772A: __vfprintf_internal (vfprintf-internal.c:1544)
+==3055056==    by 0x48CC1A2: printf (printf.c:33)
+==3055056==    by 0x109C23: disassemble_code (p3-disas.c:138)
+==3055056==    by 0x109719: main (main.c:139)
+==3055056==  Uninitialised value was created by a stack allocation
+==3055056==    at 0x10974D: fetch (p3-disas.c:14)
+==3055056== 
+==3055056== Conditional jump or move depends on uninitialised value(s)
+==3055056==    at 0x48D5D75: __printf_buffer (vfprintf-process-arg.c:186)
+==3055056==    by 0x48D772A: __vfprintf_internal (vfprintf-internal.c:1544)
+==3055056==    by 0x48CC1A2: printf (printf.c:33)
+==3055056==    by 0x109C23: disassemble_code (p3-disas.c:138)
+==3055056==    by 0x109719: main (main.c:139)
+==3055056==  Uninitialised value was created by a stack allocation
+==3055056==    at 0x10974D: fetch (p3-disas.c:14)
+==3055056== 
+==3055056== Conditional jump or move depends on uninitialised value(s)
+==3055056==    at 0x48D5D79: __printf_buffer (vfprintf-process-arg.c:186)
+==3055056==    by 0x48D772A: __vfprintf_internal (vfprintf-internal.c:1544)
+==3055056==    by 0x48CC1A2: printf (printf.c:33)
+==3055056==    by 0x109C23: disassemble_code (p3-disas.c:138)
+==3055056==    by 0x109719: main (main.c:139)
+==3055056==  Uninitialised value was created by a stack allocation
+==3055056==    at 0x10974D: fetch (p3-disas.c:14)
+==3055056== 
+==3055056== Conditional jump or move depends on uninitialised value(s)
+==3055056==    at 0x109C71: disassemble_code (p3-disas.c:126)
+==3055056==    by 0x109719: main (main.c:139)
+==3055056==  Uninitialised value was created by a stack allocation
+==3055056==    at 0x10974D: fetch (p3-disas.c:14)
+==3055056== 
+Disassembly of executable contents:
+  0x100:                               | .pos 0x100 code
+  0x100:                               | _start:
+  0x100: 01 00 |   halt
+  0x101: 01 109ac10 |   halt
+  0x102: 01 109ac10 |   halt
+  0x103: 03 0f0 |   halt
+  0x10d: 03 0f3 |   halt
+  0x117: 06 109ac10 |   halt
+  0x119: 07 109ac10 |   halt
+
+==3055056== 
+==3055056== HEAP SUMMARY:
+==3055056==     in use at exit: 472 bytes in 1 blocks
+==3055056==   total heap usage: 5 allocs, 4 frees, 20,992 bytes allocated
+==3055056== 
+==3055056== LEAK SUMMARY:
+==3055056==    definitely lost: 0 bytes in 0 blocks
+==3055056==    indirectly lost: 0 bytes in 0 blocks
+==3055056==      possibly lost: 0 bytes in 0 blocks
+==3055056==    still reachable: 472 bytes in 1 blocks
+==3055056==         suppressed: 0 bytes in 0 blocks
+==3055056== Reachable blocks (those to which a pointer was found) are not shown.
+==3055056== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3055056== 
+==3055056== For lists of detected and suppressed errors, rerun with: -s
+==3055056== ERROR SUMMARY: 71 errors from 5 contexts (suppressed: 0 from 0)

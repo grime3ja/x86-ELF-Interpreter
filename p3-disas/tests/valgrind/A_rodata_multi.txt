@@ -1,0 +1,21 @@
+==3055207== Memcheck, a memory error detector
+==3055207== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3055207== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3055207== Command: ../y86 -D inputs/rodata_multi.o
+==3055207== 
+==3055207== 
+==3055207== HEAP SUMMARY:
+==3055207==     in use at exit: 472 bytes in 1 blocks
+==3055207==   total heap usage: 4 allocs, 3 frees, 12,800 bytes allocated
+==3055207== 
+==3055207== LEAK SUMMARY:
+==3055207==    definitely lost: 0 bytes in 0 blocks
+==3055207==    indirectly lost: 0 bytes in 0 blocks
+==3055207==      possibly lost: 0 bytes in 0 blocks
+==3055207==    still reachable: 472 bytes in 1 blocks
+==3055207==         suppressed: 0 bytes in 0 blocks
+==3055207== Reachable blocks (those to which a pointer was found) are not shown.
+==3055207== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3055207== 
+==3055207== For lists of detected and suppressed errors, rerun with: -s
+==3055207== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

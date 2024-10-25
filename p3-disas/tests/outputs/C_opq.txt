@@ -1,0 +1,8 @@
+Disassembly of executable contents:
+  0x100:                               | .pos 0x100 code
+  0x100:                               | _start:
+  0x100: 06 00 |   halt
+  0x102: 06 b699dac15581 |   halt
+  0x104: 06 b699dac15581 |   halt
+  0x106: 06 b699dac15581 |   halt
+

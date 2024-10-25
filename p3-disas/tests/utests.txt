@@ -1,0 +1,31 @@
+Running suite(s): Default
+14%: Checks: 34, Failures: 29, Errors: 0
+public.c:84:F:Public:D_errors_fetch_halt:0: Assertion 'inst.icode == INVALID' failed
+public.c:107:F:Public:D_errors_fetch_nop:0: Assertion 'inst.icode == INVALID' failed
+public.c:131:F:Public:D_errors_fetch_ret:0: Assertion 'inst.icode == INVALID' failed
+private.c:38:F:Private:C_fetch_cmov:0: Assertion 'inst.ra == ra' failed
+private.c:159:F:Private:C_fetch_opq:0: Assertion 'inst.ifun.op== op' failed
+private.c:237:F:Private:C_fetch_pushq:0: Assertion 'inst.ra == ra' failed
+private.c:261:F:Private:C_fetch_popq:0: Assertion 'inst.ra == ra' failed
+private.c:314:F:Private:C_errors_fetch_cmov:0: Assertion 'inst.icode == INVALID' failed
+private.c:450:F:Private:C_errors_fetch_opq:0: Assertion 'inst.icode == INVALID' failed
+private.c:535:F:Private:C_errors_fetch_pushq:0: Assertion 'inst.icode == INVALID' failed
+private.c:574:F:Private:C_errors_fetch_popq:0: Assertion 'inst.icode == INVALID' failed
+private.c:68:F:Private:B_fetch_irmovq:0: Assertion 'inst.rb == rb' failed
+private.c:98:F:Private:B_fetch_rmmovq:0: Assertion 'inst.ra == ra' failed
+private.c:129:F:Private:B_fetch_mrmovq:0: Assertion 'inst.ra == ra' failed
+private.c:188:F:Private:B_fetch_jump:0: Assertion 'inst.ifun.jump == jump' failed
+private.c:213:F:Private:B_fetch_call:0: Assertion 'inst.valC.dest == value' failed
+private.c:284:F:Private:B_fetch_iotrap:0: Assertion 'inst.ifun.trap == id' failed
+private.c:346:F:Private:B_errors_fetch_irmovq:0: Assertion 'inst.icode == INVALID' failed
+private.c:388:F:Private:B_errors_fetch_rmmovq:0: Assertion 'inst.icode == INVALID' failed
+private.c:421:F:Private:B_errors_fetch_mrmovq:0: Assertion 'inst.icode == INVALID' failed
+private.c:477:F:Private:B_errors_fetch_jump:0: Assertion 'inst.icode == INVALID' failed
+private.c:504:F:Private:B_errors_fetch_call:0: Assertion 'inst.icode == INVALID' failed
+private.c:606:F:Private:B_errors_fetch_iotrap:0: Assertion 'inst.icode == INVALID' failed
+private.c:629:F:Private:A_errors_fetch_invalid_opcode:0: Assertion 'cpu.stat == INS' failed
+private.c:642:F:Private:A_errors_fetch_invalid_pc:0: Assertion 'inst.icode== INVALID' failed
+private.c:679:F:Private:A_errors_fetch_invalid_pc_cmov:0: Assertion 'inst.icode== INVALID' failed
+private.c:698:F:Private:A_errors_fetch_invalid_pc_call:0: Assertion 'inst.icode== INVALID' failed
+private.c:718:F:Private:A_errors_fetch_invalid_pc_rmmov:0: Assertion 'inst.icode== INVALID' failed
+private.c:664:F:Private:A_errors_fetch_invalid_regs_cmov:0: Assertion 'inst.icode == INVALID' failed

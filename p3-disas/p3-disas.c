@@ -22,27 +22,75 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
         cpu->stat = INS;
         return ins;
     }
-    switch (memory[cpu->pc] >> 4) {
+    ins.icode = memory[cpu->pc] >> 4;
+    ins.ifun.b = 0;
+    ins.valP = cpu->pc;
+    switch (ins.icode) {
         case HALT:
-            ins.icode = HALT;
-            ins.ifun.b = 0;
-            ins.valP = cpu->pc + 1;
+            // ins.valP = cpu->pc + 1;
+            ins.valP += 1;
             break;
         case NOP:
-            ins.icode = NOP;
-            ins.ifun.b = 0;
-            ins.valP = cpu->pc + 1;
+            ins.valP += 1;
             break;
         case RET:
-            ins.icode = RET;
             ins.ifun.b = 0;
-            ins.valP = cpu->pc + 1;
+            ins.valP += 1;
             break;
-        // case CMOV:
-        //     ins.icode = CMOV;
-        //     ins.ifun.cmov = CMOV;
-        //     ins.rb = memory[cpu->pc + 1];
-        //     ins.ra = memory[(cpu->pc + 1) >> 8];
+        case CMOV:
+            ins.ifun.b = memory[cpu->pc] & 0x0f;
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = memory[cpu->pc + 1] & 0x0f;
+            ins.valP += 2;
+            break;
+        case IRMOVQ:
+            ins.ifun.b = 0;
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = memory[cpu->pc + 1] & 0x0f;
+            // valC ← M8[PC+2]
+            ins.valP += 10;
+            break;
+        case RMMOVQ:
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = memory[cpu->pc + 1] & 0x0f;
+            // valC ← M8[PC+2]
+            ins.valP += 10;
+            break;
+        case MRMOVQ:
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = memory[cpu->pc + 1] & 0x0f;
+            // valC ← M8[PC+2]
+            ins.valP += 10;
+            break;
+        case OPQ:
+            ins.ifun.b = memory[cpu->pc] & 0x0f;
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = memory[cpu->pc + 1] & 0x0f;
+            ins.valP += 2;
+            break;
+        case JUMP:
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = 0xf;
+            break;
+        case CALL:
+
+            break;
+        case PUSHQ:
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = 0xf;
+            ins.valP += 2;
+            break;
+        case POPQ:
+            ins.ra = memory[cpu->pc + 1] >> 4;
+            ins.rb = 0xf;
+            ins.valP += 2;
+            break;
+        // TODO
+        case IOTRAP:
+
+            break;
+        case INVALID:
+            break;
         // default:
         //     ins.icode = INVALID;
         //     cpu->stat = INS;
@@ -57,17 +105,127 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
 
 void disassemble (y86_inst_t *inst)
 {
+    bool rb = false;
     switch(inst->icode) {
         case HALT:
-            printf("halt\n");
+            printf("halt");
             break;
         case NOP:
-            printf("nop\n");
+            printf("nop");
+            break;
+        case CMOV:
+            switch(inst->ifun.b) {
+                case RRMOVQ:
+                    printf("rrmovq ");
+                    break;
+                case CMOVLE:
+                    printf("cmovle ");
+                    break;
+                case CMOVL:
+                    printf("cmovl ");
+                    break;
+                case CMOVE:
+                    printf("cmove ");
+                    break;
+                case CMOVNE:
+                    printf("cmovne ");
+                    break;
+                case CMOVGE:
+                    printf("cmovge ");
+                    break;
+                case CMOVG:
+                    printf("cmovg ");
+                    break;
+                case BADCMOV:
+                    printf("badcmov ");
+                    break;
+            }
+            rb = true;
+            break;
+        // TODO
+        case IRMOVQ:
+            break;
+        case RMMOVQ:
+            break;
+        case MRMOVQ:
+            break;
+        case OPQ:
+            switch(inst->ifun.b) {
+                case ADD:
+                    printf("addq ");
+                    break;
+                case SUB:
+                    printf("subq ");
+                    break;
+                case AND:
+                    printf("andq ");
+                    break;
+                case XOR:
+                    printf("xorq ");
+                    break;
+                case BADOP:
+                    printf("badopq ");
+                    break;
+            }
+            rb = true;
+            break;
+        case JUMP:
+            break;
+        case CALL:
             break;
         case RET:
-            printf("ret\n");
+            printf("ret");
+            break;
+        case PUSHQ:
+            printf("pushq ");
+            break;
+        case POPQ:
+            printf("popq ");
+            break;
+        // TODO
+        case IOTRAP:
+            break;
+        case INVALID:
             break;
     }
+    for (int i = 0; i < 2; i++) {
+        if (inst->ra + i == RAX) {
+            printf("%%rax");
+        } else if (inst->ra + i == RCX) {
+            printf("%%rcx");
+        } else if (inst->ra + i == RDX) {
+            printf("%%rdx");
+        } else if (inst->ra + i == RBX) {
+            printf("%%rbx");
+        } else if (inst->ra + i == RSP) {
+            printf("%%rsp");
+        } else if (inst->ra + i == RBP) {
+            printf("%%rbx");
+        } else if (inst->ra + i == RSI) {
+            printf("%%rsi");
+        } else if (inst->ra + i == RDI) {
+            printf("%%rdi");
+        } else if (inst->ra + i == R8) {
+            printf("%%r8");
+        } else if (inst->ra + i == R9) {
+            printf("%%r9");
+        } else if (inst->ra + i == R10) {
+            printf("%%r10");
+        } else if (inst->ra + i == R11) {
+            printf("%%r11");
+        } else if (inst->ra + i == R12) {
+            printf("%%r12");
+        } else if (inst->ra + i == R13) {
+            printf("%%r13");
+        } else if (inst->ra + i == R14) {
+            printf("%%r14");
+        } else if (inst->ra + i == NOREG) {
+            printf("noreg");
+        }
+        rb ? printf(", ") : i++;
+        rb = false;
+    }
+    printf("\n");
 }
 
 void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
@@ -91,9 +249,13 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
             printf("Invalid opcode: 0x%2x\n", memory[cpu.pc]);
             break;
         }
-        // TODO: print current address and raw bytes of instruction
-        printf("  0x%lx: %02x", cpu.pc, ins.icode << 4);
+        // print current address and raw bytes of instruction
+        printf("  0x%lx: ", cpu.pc);
+        
+        printf("%x%x ", ins.icode, ins.ifun.b);
+        printf("%x%x ", ins.ra, ins.rb);
 
+        printf("|   ");
         disassemble (&ins);                 // stage 2: print disassembly
         cpu.pc = ins.valP;                  // stage 3: update PC (go to next instruction)
     }
