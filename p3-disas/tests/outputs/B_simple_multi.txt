@@ -1,11 +1,11 @@
 Disassembly of executable contents:
   0x100:                               | .pos 0x100 code
   0x100:                               | _start:
-  0x100: 01 00 |   halt
-  0x101: 01 c902cac15d94 |   halt
-  0x102: 01 c902cac15d94 |   halt
-  0x103: 03 0f0 |   halt
-  0x10d: 03 0f3 |   halt
-  0x117: 06 c902cac15d94 |   halt
-  0x119: 07 c902cac15d94 |   halt
+  0x100: 10                            |   nop
+  0x101: 10                            |   nop
+  0x102: 10                            |   nop
+  0x103: 30 f0                               |   noreg
+  0x10d: 30 f3                               |   noreg
+  0x117: 60 03                         |   addq %rax, %rbx
+  0x119: 70 0f                               |   
 

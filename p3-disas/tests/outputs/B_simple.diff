@@ -1,15 +1,13 @@
---- outputs/B_simple.txt	2024-10-22 23:33:25.332388964 -0400
+--- outputs/B_simple.txt	2024-10-25 20:29:33.988120250 -0400
 +++ expected/B_simple.txt	2024-07-10 15:12:09.000000000 -0400
 @@ -12,8 +12,8 @@
  Disassembly of executable contents:
    0x100:                               | .pos 0x100 code
    0x100:                               | _start:
--  0x100: 03 0f0 |   halt
--  0x10a: 03 0f3 |   halt
--  0x114: 06 4301dac15ca5 |   halt
--  0x116: 00 4301dac15ca5 |   halt
+-  0x100: 30 f0                               |   noreg
+-  0x10a: 30 f3                               |   noreg
 +  0x100: 30 f0 68 24 00 00 00 00 00 00 |   irmovq 0x2468, %rax
 +  0x10a: 30 f3 34 12 00 00 00 00 00 00 |   irmovq 0x1234, %rbx
-+  0x114: 60 03                         |   addq %rax, %rbx
-+  0x116: 00                            |   halt
+   0x114: 60 03                         |   addq %rax, %rbx
+   0x116: 00                            |   halt
  

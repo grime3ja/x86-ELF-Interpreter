@@ -27,14 +27,12 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
     ins.valP = cpu->pc;
     switch (ins.icode) {
         case HALT:
-            // ins.valP = cpu->pc + 1;
             ins.valP += 1;
             break;
         case NOP:
             ins.valP += 1;
             break;
         case RET:
-            ins.ifun.b = 0;
             ins.valP += 1;
             break;
         case CMOV:
@@ -71,9 +69,11 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
         case JUMP:
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = 0xf;
+            ins.valP += 9;
             break;
         case CALL:
 
+            ins.valP += 9;
             break;
         case PUSHQ:
             ins.ra = memory[cpu->pc + 1] >> 4;
@@ -88,13 +88,10 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
         // TODO
         case IOTRAP:
 
+            ins.valP += 1;
             break;
         case INVALID:
             break;
-        // default:
-        //     ins.icode = INVALID;
-        //     cpu->stat = INS;
-        //     break;
     }
     return ins;
 }
@@ -105,7 +102,8 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
 
 void disassemble (y86_inst_t *inst)
 {
-    bool rb = false;
+    int registers = 0;
+    // disassemble_icode(inst, registers);
     switch(inst->icode) {
         case HALT:
             printf("halt");
@@ -140,14 +138,17 @@ void disassemble (y86_inst_t *inst)
                     printf("badcmov ");
                     break;
             }
-            rb = true;
+            registers = 2;
             break;
         // TODO
         case IRMOVQ:
+            registers = 1;
             break;
         case RMMOVQ:
+            registers = 1;
             break;
         case MRMOVQ:
+            registers = 1;
             break;
         case OPQ:
             switch(inst->ifun.b) {
@@ -167,7 +168,7 @@ void disassemble (y86_inst_t *inst)
                     printf("badopq ");
                     break;
             }
-            rb = true;
+            registers = 2;
             break;
         case JUMP:
             break;
@@ -178,9 +179,11 @@ void disassemble (y86_inst_t *inst)
             break;
         case PUSHQ:
             printf("pushq ");
+            registers = 1;
             break;
         case POPQ:
             printf("popq ");
+            registers = 1;
             break;
         // TODO
         case IOTRAP:
@@ -188,44 +191,125 @@ void disassemble (y86_inst_t *inst)
         case INVALID:
             break;
     }
-    for (int i = 0; i < 2; i++) {
-        if (inst->ra + i == RAX) {
-            printf("%%rax");
-        } else if (inst->ra + i == RCX) {
-            printf("%%rcx");
-        } else if (inst->ra + i == RDX) {
-            printf("%%rdx");
-        } else if (inst->ra + i == RBX) {
-            printf("%%rbx");
-        } else if (inst->ra + i == RSP) {
-            printf("%%rsp");
-        } else if (inst->ra + i == RBP) {
-            printf("%%rbx");
-        } else if (inst->ra + i == RSI) {
-            printf("%%rsi");
-        } else if (inst->ra + i == RDI) {
-            printf("%%rdi");
-        } else if (inst->ra + i == R8) {
-            printf("%%r8");
-        } else if (inst->ra + i == R9) {
-            printf("%%r9");
-        } else if (inst->ra + i == R10) {
-            printf("%%r10");
-        } else if (inst->ra + i == R11) {
-            printf("%%r11");
-        } else if (inst->ra + i == R12) {
-            printf("%%r12");
-        } else if (inst->ra + i == R13) {
-            printf("%%r13");
-        } else if (inst->ra + i == R14) {
-            printf("%%r14");
-        } else if (inst->ra + i == NOREG) {
-            printf("noreg");
+
+    if (registers > 0) {
+        // disassemble_register(inst->ra);
+        switch(inst->ra) {
+            case RAX:
+                printf("%%rax");
+                break;
+            case RCX:
+                printf("%%rcx");
+                break;
+            case RDX:
+                printf("%%rdx");
+                break;
+            case RBX:
+                printf("%%rbx");
+                break;
+            case RSP:
+                printf("%%rsp");
+                break;
+            case RBP:
+                printf("%%rbp");
+                break;
+            case RSI:
+                printf("%%rsi");
+                break;
+            case RDI:
+                printf("%%rdi");
+                break;
+            case R8:
+                printf("%%r8");
+                break;
+            case R9:
+                printf("%%r9");
+                break;
+            case R10:
+                printf("%%r10");
+                break;
+            case R11:
+                printf("%%r11");
+                break;
+            case R12:
+                printf("%%r12");
+                break;
+            case R13:
+                printf("%%r13");
+                break;
+            case R14:
+                printf("%%r14");
+                break;
+            case NOREG:
+                printf("noreg");
+                break;
         }
-        rb ? printf(", ") : i++;
-        rb = false;
+    }
+    if (registers > 1) {
+        // disassemble_register(inst->rb);
+        printf(", ");
+        switch(inst->rb) {
+            case RAX:
+                printf("%%rax");
+                break;
+            case RCX:
+                printf("%%rcx");
+                break;
+            case RDX:
+                printf("%%rdx");
+                break;
+            case RBX:
+                printf("%%rbx");
+                break;
+            case RSP:
+                printf("%%rsp");
+                break;
+            case RBP:
+                printf("%%rbp");
+                break;
+            case RSI:
+                printf("%%rsi");
+                break;
+            case RDI:
+                printf("%%rdi");
+                break;
+            case R8:
+                printf("%%r8");
+                break;
+            case R9:
+                printf("%%r9");
+                break;
+            case R10:
+                printf("%%r10");
+                break;
+            case R11:
+                printf("%%r11");
+                break;
+            case R12:
+                printf("%%r12");
+                break;
+            case R13:
+                printf("%%r13");
+                break;
+            case R14:
+                printf("%%r14");
+                break;
+            case NOREG:
+                printf("noreg");
+                break;
+        }
     }
     printf("\n");
+}
+
+void disassemble_icode(y86_inst_t *inst, int registers)
+{
+    
+}
+
+void disassemble_register (y86_regnum_t reg)
+{
+    
 }
 
 void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
@@ -253,7 +337,20 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
         printf("  0x%lx: ", cpu.pc);
         
         printf("%x%x ", ins.icode, ins.ifun.b);
-        printf("%x%x ", ins.ra, ins.rb);
+        if (ins.valP - cpu.pc > 1) {
+            printf("%x%x ", ins.ra, ins.rb);
+        }
+
+        switch (ins.valP - cpu.pc) {
+            case 2:
+                printf("%24s", " ");
+                break;
+            case 1:
+                printf("%27s", " ");
+                break;
+            default:
+                printf("%30s", " ");
+        }
 
         printf("|   ");
         disassemble (&ins);                 // stage 2: print disassembly
