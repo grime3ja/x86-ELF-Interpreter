@@ -1,30 +1,30 @@
-==1500287== Memcheck, a memory error detector
-==1500287== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==1500287== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==1500287== Command: ../y86 -d inputs/tenbyte.o
-==1500287== 
+==2466096== Memcheck, a memory error detector
+==2466096== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2466096== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2466096== Command: ../y86 -d inputs/tenbyte.o
+==2466096== 
 Disassembly of executable contents:
   0x100:                               | .pos 0x100 code
   0x100:                               | _start:
-  0x100: 30 f0                               |   noreg
-  0x10a: 40 12                               |   %rcx
-  0x114: 50 12                               |   %rcx
-  0x11e: 40 1f                               |   %rcx
-  0x128: 50 1f                               |   %rcx
+  0x100: 30 f0 88 77 66 55 44 33 22 11 |   noreg, %rax
+  0x10a: 40 12 21 43 65 87 78 56 34 12 |   %rcx, %rdx
+  0x114: 50 12 78 56 34 12 21 43 65 87 |   %rcx, %rdx
+  0x11e: 40 1f 21 43 65 87 78 56 34 12 |   %rcx, noreg
+  0x128: 50 1f 78 56 34 12 21 43 65 87 |   %rcx, noreg
 
-==1500287== 
-==1500287== HEAP SUMMARY:
-==1500287==     in use at exit: 472 bytes in 1 blocks
-==1500287==   total heap usage: 5 allocs, 4 frees, 20,972 bytes allocated
-==1500287== 
-==1500287== LEAK SUMMARY:
-==1500287==    definitely lost: 0 bytes in 0 blocks
-==1500287==    indirectly lost: 0 bytes in 0 blocks
-==1500287==      possibly lost: 0 bytes in 0 blocks
-==1500287==    still reachable: 472 bytes in 1 blocks
-==1500287==         suppressed: 0 bytes in 0 blocks
-==1500287== Reachable blocks (those to which a pointer was found) are not shown.
-==1500287== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1500287== 
-==1500287== For lists of detected and suppressed errors, rerun with: -s
-==1500287== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==2466096== 
+==2466096== HEAP SUMMARY:
+==2466096==     in use at exit: 472 bytes in 1 blocks
+==2466096==   total heap usage: 5 allocs, 4 frees, 20,972 bytes allocated
+==2466096== 
+==2466096== LEAK SUMMARY:
+==2466096==    definitely lost: 0 bytes in 0 blocks
+==2466096==    indirectly lost: 0 bytes in 0 blocks
+==2466096==      possibly lost: 0 bytes in 0 blocks
+==2466096==    still reachable: 472 bytes in 1 blocks
+==2466096==         suppressed: 0 bytes in 0 blocks
+==2466096== Reachable blocks (those to which a pointer was found) are not shown.
+==2466096== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2466096== 
+==2466096== For lists of detected and suppressed errors, rerun with: -s
+==2466096== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

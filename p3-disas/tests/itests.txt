@@ -6,29 +6,3 @@ C_opq                          pass
 B_ninebyte                     FAIL (see tests/outputs/B_ninebyte.diff for details)
 B_jmp                          FAIL (see tests/outputs/B_jmp.diff for details)
 B_tenbyte                      FAIL (see tests/outputs/B_tenbyte.diff for details)
-B_simple                       FAIL (see tests/outputs/B_simple.diff for details)
-B_simple_multi                 FAIL (see tests/outputs/B_simple_multi.diff for details)
-B_iotrap                       FAIL (see tests/outputs/B_iotrap.diff for details)
-A_data_code                    pass
-A_rodata_code                  pass
-A_data                         FAIL (see tests/outputs/A_data.diff for details)
-A_rodata                       FAIL (see tests/outputs/A_rodata.diff for details)
-A_rodata_multi                 FAIL (see tests/outputs/A_rodata_multi.diff for details)
-A_interleaved                  FAIL (see tests/outputs/A_interleaved.diff for details)
-A_invalid                      FAIL (crash or timeout)
-A_bad_no_elf                   pass
-A_bad_phdr                     pass
-A_bad_short_header             pass
-A_bad_short_phdr               pass
-A_bad_filename                 FAIL (see tests/outputs/A_bad_filename.diff for details)
-A_missing_file                 FAIL (crash or timeout)
-A_extra_params                 pass
-A_unaligned1                   FAIL (see tests/outputs/A_unaligned1.diff for details)
-A_unaligned2                   FAIL (see tests/outputs/A_unaligned2.diff for details)
-A_rodata_long                  FAIL (see tests/outputs/A_rodata_long.diff for details)
-A_rodata_shakespeare           FAIL (see tests/outputs/A_rodata_shakespeare.diff for details)
-No memory leak found.
-Uninitialized value(s) found. See files listed below for details.
-  - tests/valgrind/B_ninebyte.txt
-  - tests/valgrind/B_ninebyte.txt
-  - tests/valgrind/B_ninebyte.txt

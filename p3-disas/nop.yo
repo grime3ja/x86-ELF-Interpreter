@@ -1,6 +1,7 @@
   0x100:                      | .pos 0x100 code
   0x100:                      | _start:
-  0x100: 10                   |     nop
-  0x101: 2001                 |     rrmovq %rax, %rcx
-  0x103: 00                   |     halt
-  0x104: 6001                 |     addq %rax, %rcx
+  0x100: a07f                 |     pushq %rdi
+  0x102: 10                   |     nop
+  0x103: 2001                 |     rrmovq %rax, %rcx
+  0x105: 00                   |     halt
+  0x106: 6001                 |     addq %rax, %rcx

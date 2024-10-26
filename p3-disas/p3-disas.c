@@ -1,10 +1,12 @@
 /*
  * CS 261 PA3: Mini-ELF disassembler
  *
- * Name: 
+ * Name: Jacob Grimes
  */
 
 #include "p3-disas.h"
+int disassemble_icode(y86_inst_t *inst);
+void disassemble_register(y86_regnum_t reg);
 
 /**********************************************************************
  *                         REQUIRED FUNCTIONS
@@ -27,15 +29,26 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
     ins.valP = cpu->pc;
     switch (ins.icode) {
         case HALT:
+            if ((memory[cpu->pc] & 0x0f) != 0) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+                break;
+            }
             ins.valP += 1;
             break;
         case NOP:
-            ins.valP += 1;
-            break;
-        case RET:
+            if ((memory[cpu->pc] & 0x0f) != 0) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+                break;
+            }
             ins.valP += 1;
             break;
         case CMOV:
+            if ((memory[cpu->pc] & 0x0f) > 6 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc] & 0x0f) > 14) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             ins.ifun.b = memory[cpu->pc] & 0x0f;
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
@@ -46,6 +59,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
             // valC ← M8[PC+2]
+            // memcpy(&ins.valC.v, &memory[cpu->pc + 1], 8);
             ins.valP += 10;
             break;
         case RMMOVQ:
@@ -61,6 +75,10 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             ins.valP += 10;
             break;
         case OPQ:
+            if ((memory[cpu->pc] & 0x0f) > 3 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc] & 0x0f) > 14) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             ins.ifun.b = memory[cpu->pc] & 0x0f;
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
@@ -69,29 +87,47 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
         case JUMP:
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = 0xf;
+            // valC ← M8[PC+2]
             ins.valP += 9;
             break;
         case CALL:
 
+            // valC ← M8[PC+2]
             ins.valP += 9;
             break;
+        case RET:
+            if ((memory[cpu->pc] & 0x0f) != 0) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+                break;
+            }
+            ins.valP += 1;
+            break;
         case PUSHQ:
+            if ((memory[cpu->pc] & 0x0f) != 0 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc + 1] & 0x0f) != 0xf) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = 0xf;
             ins.valP += 2;
             break;
         case POPQ:
+            if ((memory[cpu->pc] & 0x0f) != 0 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc + 1] & 0x0f) != 0xf) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = 0xf;
             ins.valP += 2;
             break;
-        // TODO
         case IOTRAP:
-
+            ins.ifun.b = memory[cpu->pc] & 0x0f;
             ins.valP += 1;
             break;
-        case INVALID:
-            break;
+        default:
+            ins.icode = INVALID;
+            cpu->stat = INS;
     }
     return ins;
 }
@@ -102,8 +138,74 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
 
 void disassemble (y86_inst_t *inst)
 {
+    int registers = disassemble_icode(inst);
+
+    if (registers > 0) {
+        disassemble_register(inst->ra);
+    }
+    if (registers > 1) {
+        printf(", ");
+        disassemble_register(inst->rb);
+    }
+    printf("\n");
+}
+
+
+void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
+{
+    y86_t cpu;			// CPU struct to store "fake" PC
+    y86_inst_t ins;		// struct to hold fetched instruction
+
+    // start at beginning of the segment
+    cpu.pc = phdr->p_vaddr;
+
+    printf("Disassembly of executable contents:\n");
+    printf("  0x100:                               | .pos 0x100 code\n");
+    printf("  0x100:                               | _start:\n");
+
+    // iterate through the segment one instruction at a time
+    while (cpu.pc < phdr->p_vaddr + phdr->p_size) {
+        ins = fetch (&cpu, memory);         // stage 1: fetch instruction
+
+        // abort with error if instruction was invalid
+        if (ins.icode == INVALID) {
+            printf("Invalid opcode: 0x%2x\n", memory[cpu.pc]);
+            break;
+        }
+        // print current address and raw bytes of instruction
+        printf("  0x%lx: ", cpu.pc);
+        
+        printf("%x%x ", ins.icode, ins.ifun.b);
+        if (ins.valP - cpu.pc > 1) {
+            printf("%x%x ", ins.ra, ins.rb);
+        }
+
+        switch (ins.valP - cpu.pc) {
+            case 10:
+                for (int i = cpu.pc + 2; i < cpu.pc + 10; i++) {
+                    printf("%02x ", memory[i]);
+                }
+                break;
+            case 2:
+                printf("%24s", " ");
+                break;
+            case 1:
+                printf("%27s", " ");
+                break;
+            default:
+                printf("%30s", " ");
+        }
+
+        printf("|   ");
+        disassemble (&ins);                 // stage 2: print disassembly
+        cpu.pc = ins.valP;                  // stage 3: update PC (go to next instruction)
+    }
+    printf("\n");
+}
+
+int disassemble_icode(y86_inst_t *inst)
+{
     int registers = 0;
-    // disassemble_icode(inst, registers);
     switch(inst->icode) {
         case HALT:
             printf("halt");
@@ -142,13 +244,13 @@ void disassemble (y86_inst_t *inst)
             break;
         // TODO
         case IRMOVQ:
-            registers = 1;
+            registers = 2;
             break;
         case RMMOVQ:
-            registers = 1;
+            registers = 2;
             break;
         case MRMOVQ:
-            registers = 1;
+            registers = 2;
             break;
         case OPQ:
             switch(inst->ifun.b) {
@@ -187,176 +289,66 @@ void disassemble (y86_inst_t *inst)
             break;
         // TODO
         case IOTRAP:
+            printf("iotrap %d", inst->ifun.trap);
             break;
         case INVALID:
             break;
     }
-
-    if (registers > 0) {
-        // disassemble_register(inst->ra);
-        switch(inst->ra) {
-            case RAX:
-                printf("%%rax");
-                break;
-            case RCX:
-                printf("%%rcx");
-                break;
-            case RDX:
-                printf("%%rdx");
-                break;
-            case RBX:
-                printf("%%rbx");
-                break;
-            case RSP:
-                printf("%%rsp");
-                break;
-            case RBP:
-                printf("%%rbp");
-                break;
-            case RSI:
-                printf("%%rsi");
-                break;
-            case RDI:
-                printf("%%rdi");
-                break;
-            case R8:
-                printf("%%r8");
-                break;
-            case R9:
-                printf("%%r9");
-                break;
-            case R10:
-                printf("%%r10");
-                break;
-            case R11:
-                printf("%%r11");
-                break;
-            case R12:
-                printf("%%r12");
-                break;
-            case R13:
-                printf("%%r13");
-                break;
-            case R14:
-                printf("%%r14");
-                break;
-            case NOREG:
-                printf("noreg");
-                break;
-        }
-    }
-    if (registers > 1) {
-        // disassemble_register(inst->rb);
-        printf(", ");
-        switch(inst->rb) {
-            case RAX:
-                printf("%%rax");
-                break;
-            case RCX:
-                printf("%%rcx");
-                break;
-            case RDX:
-                printf("%%rdx");
-                break;
-            case RBX:
-                printf("%%rbx");
-                break;
-            case RSP:
-                printf("%%rsp");
-                break;
-            case RBP:
-                printf("%%rbp");
-                break;
-            case RSI:
-                printf("%%rsi");
-                break;
-            case RDI:
-                printf("%%rdi");
-                break;
-            case R8:
-                printf("%%r8");
-                break;
-            case R9:
-                printf("%%r9");
-                break;
-            case R10:
-                printf("%%r10");
-                break;
-            case R11:
-                printf("%%r11");
-                break;
-            case R12:
-                printf("%%r12");
-                break;
-            case R13:
-                printf("%%r13");
-                break;
-            case R14:
-                printf("%%r14");
-                break;
-            case NOREG:
-                printf("noreg");
-                break;
-        }
-    }
-    printf("\n");
-}
-
-void disassemble_icode(y86_inst_t *inst, int registers)
-{
-    
+    return registers;
 }
 
 void disassemble_register (y86_regnum_t reg)
 {
-    
-}
-
-void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
-{
-    y86_t cpu;			// CPU struct to store "fake" PC
-    y86_inst_t ins;		// struct to hold fetched instruction
-
-    // start at beginning of the segment
-    cpu.pc = phdr->p_vaddr;
-
-    printf("Disassembly of executable contents:\n");
-    printf("  0x100:                               | .pos 0x100 code\n");
-    printf("  0x100:                               | _start:\n");
-
-    // iterate through the segment one instruction at a time
-    while (cpu.pc < phdr->p_vaddr + phdr->p_size) {
-        ins = fetch (&cpu, memory);         // stage 1: fetch instruction
-
-        // abort with error if instruction was invalid
-        if (ins.icode == INVALID) {
-            printf("Invalid opcode: 0x%2x\n", memory[cpu.pc]);
+    switch(reg) {
+        case RAX:
+            printf("%%rax");
             break;
-        }
-        // print current address and raw bytes of instruction
-        printf("  0x%lx: ", cpu.pc);
-        
-        printf("%x%x ", ins.icode, ins.ifun.b);
-        if (ins.valP - cpu.pc > 1) {
-            printf("%x%x ", ins.ra, ins.rb);
-        }
-
-        switch (ins.valP - cpu.pc) {
-            case 2:
-                printf("%24s", " ");
-                break;
-            case 1:
-                printf("%27s", " ");
-                break;
-            default:
-                printf("%30s", " ");
-        }
-
-        printf("|   ");
-        disassemble (&ins);                 // stage 2: print disassembly
-        cpu.pc = ins.valP;                  // stage 3: update PC (go to next instruction)
+        case RCX:
+            printf("%%rcx");
+            break;
+        case RDX:
+            printf("%%rdx");
+            break;
+        case RBX:
+            printf("%%rbx");
+            break;
+        case RSP:
+            printf("%%rsp");
+            break;
+        case RBP:
+            printf("%%rbp");
+            break;
+        case RSI:
+            printf("%%rsi");
+            break;
+        case RDI:
+            printf("%%rdi");
+            break;
+        case R8:
+            printf("%%r8");
+            break;
+        case R9:
+            printf("%%r9");
+            break;
+        case R10:
+            printf("%%r10");
+            break;
+        case R11:
+            printf("%%r11");
+            break;
+        case R12:
+            printf("%%r12");
+            break;
+        case R13:
+            printf("%%r13");
+            break;
+        case R14:
+            printf("%%r14");
+            break;
+        case NOREG:
+            printf("noreg");
+            break;
     }
-    printf("\n");
 }
 
 void disassemble_data (byte_t *memory, elf_phdr_t *phdr)

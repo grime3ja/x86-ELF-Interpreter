@@ -1,7 +1,7 @@
 /*
  * CS 261: Main driver
  *
- * Name: 
+ * Name: Jacob Grimes
  */
 
 #include "p1-check.h"

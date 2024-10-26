@@ -1,5 +1,6 @@
 .pos 0x100 code
 _start:
+    pushq %rdi
     nop
     rrmovq %rax, %rcx
     halt

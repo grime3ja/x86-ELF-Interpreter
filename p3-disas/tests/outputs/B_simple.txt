@@ -12,8 +12,8 @@ Contents of memory from 0100 to 0117:
 Disassembly of executable contents:
   0x100:                               | .pos 0x100 code
   0x100:                               | _start:
-  0x100: 30 f0                               |   noreg
-  0x10a: 30 f3                               |   noreg
+  0x100: 30 f0 68 24 00 00 00 00 00 00 |   noreg, %rax
+  0x10a: 30 f3 34 12 00 00 00 00 00 00 |   noreg, %rbx
   0x114: 60 03                         |   addq %rax, %rbx
   0x116: 00                            |   halt
 
