@@ -142,6 +142,10 @@ int main (int argc, char **argv)
         }
     }
 
+    // if (upper_d_flag) {
+    //     disassemble_data(mem, phdr);
+    // }
+
     free(phdr);
     free(mem);
     return EXIT_SUCCESS;

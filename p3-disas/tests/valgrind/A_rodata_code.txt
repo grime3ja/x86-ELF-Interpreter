@@ -1,40 +1,8 @@
-==481289== Memcheck, a memory error detector
-==481289== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==481289== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==481289== Command: ../y86 -d inputs/rodata.o
-==481289== 
-==481289== Conditional jump or move depends on uninitialised value(s)
-==481289==    at 0x10A94D: disassemble_register (p3-disas.c:383)
-==481289==    by 0x109FE4: disassemble (p3-disas.c:167)
-==481289==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
-==481289==    by 0x10974C: main (main.c:141)
-==481289==  Uninitialised value was created by a stack allocation
-==481289==    at 0x109790: fetch (p3-disas.c:16)
-==481289== 
-==481289== Use of uninitialised value of size 8
-==481289==    at 0x10A965: disassemble_register (p3-disas.c:383)
-==481289==    by 0x109FE4: disassemble (p3-disas.c:167)
-==481289==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
-==481289==    by 0x10974C: main (main.c:141)
-==481289==  Uninitialised value was created by a stack allocation
-==481289==    at 0x109790: fetch (p3-disas.c:16)
-==481289== 
-==481289== Conditional jump or move depends on uninitialised value(s)
-==481289==    at 0x10A94D: disassemble_register (p3-disas.c:383)
-==481289==    by 0x109FF6: disassemble (p3-disas.c:168)
-==481289==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
-==481289==    by 0x10974C: main (main.c:141)
-==481289==  Uninitialised value was created by a stack allocation
-==481289==    at 0x109790: fetch (p3-disas.c:16)
-==481289== 
-==481289== Use of uninitialised value of size 8
-==481289==    at 0x10A965: disassemble_register (p3-disas.c:383)
-==481289==    by 0x109FF6: disassemble (p3-disas.c:168)
-==481289==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
-==481289==    by 0x10974C: main (main.c:141)
-==481289==  Uninitialised value was created by a stack allocation
-==481289==    at 0x109790: fetch (p3-disas.c:16)
-==481289== 
+==536055== Memcheck, a memory error detector
+==536055== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==536055== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==536055== Command: ../y86 -d inputs/rodata.o
+==536055== 
 Disassembly of executable contents:
   0x100:                               | .pos 0x100 code
   0x100:                               | _start:
@@ -43,19 +11,19 @@ Disassembly of executable contents:
   0x200:                               | .pos 0x200 code
 Invalid opcode: 0x68
 
-==481289== 
-==481289== HEAP SUMMARY:
-==481289==     in use at exit: 472 bytes in 1 blocks
-==481289==   total heap usage: 5 allocs, 4 frees, 20,992 bytes allocated
-==481289== 
-==481289== LEAK SUMMARY:
-==481289==    definitely lost: 0 bytes in 0 blocks
-==481289==    indirectly lost: 0 bytes in 0 blocks
-==481289==      possibly lost: 0 bytes in 0 blocks
-==481289==    still reachable: 472 bytes in 1 blocks
-==481289==         suppressed: 0 bytes in 0 blocks
-==481289== Reachable blocks (those to which a pointer was found) are not shown.
-==481289== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==481289== 
-==481289== For lists of detected and suppressed errors, rerun with: -s
-==481289== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+==536055== 
+==536055== HEAP SUMMARY:
+==536055==     in use at exit: 472 bytes in 1 blocks
+==536055==   total heap usage: 5 allocs, 4 frees, 20,992 bytes allocated
+==536055== 
+==536055== LEAK SUMMARY:
+==536055==    definitely lost: 0 bytes in 0 blocks
+==536055==    indirectly lost: 0 bytes in 0 blocks
+==536055==      possibly lost: 0 bytes in 0 blocks
+==536055==    still reachable: 472 bytes in 1 blocks
+==536055==         suppressed: 0 bytes in 0 blocks
+==536055== Reachable blocks (those to which a pointer was found) are not shown.
+==536055== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==536055== 
+==536055== For lists of detected and suppressed errors, rerun with: -s
+==536055== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -28,42 +28,4 @@ A_unaligned2                   FAIL (see tests/outputs/A_unaligned2.diff for det
 A_rodata_long                  FAIL (see tests/outputs/A_rodata_long.diff for details)
 A_rodata_shakespeare           FAIL (see tests/outputs/A_rodata_shakespeare.diff for details)
 No memory leak found.
-Uninitialized value(s) found. See files listed below for details.
-  - tests/valgrind/A_data_code.txt
-  - tests/valgrind/A_data_code.txt
-  - tests/valgrind/A_data_code.txt
-  - tests/valgrind/A_data_code.txt
-  - tests/valgrind/A_interleaved.txt
-  - tests/valgrind/A_interleaved.txt
-  - tests/valgrind/A_interleaved.txt
-  - tests/valgrind/A_interleaved.txt
-  - tests/valgrind/A_rodata_code.txt
-  - tests/valgrind/A_rodata_code.txt
-  - tests/valgrind/A_rodata_code.txt
-  - tests/valgrind/A_rodata_code.txt
-  - tests/valgrind/A_unaligned1.txt
-  - tests/valgrind/A_unaligned1.txt
-  - tests/valgrind/A_unaligned2.txt
-  - tests/valgrind/A_unaligned2.txt
-  - tests/valgrind/B_iotrap.txt
-  - tests/valgrind/B_iotrap.txt
-  - tests/valgrind/B_iotrap.txt
-  - tests/valgrind/B_iotrap.txt
-  - tests/valgrind/B_jmp.txt
-  - tests/valgrind/B_jmp.txt
-  - tests/valgrind/B_jmp.txt
-  - tests/valgrind/B_jmp.txt
-  - tests/valgrind/B_ninebyte.txt
-  - tests/valgrind/B_ninebyte.txt
-  - tests/valgrind/B_ninebyte.txt
-  - tests/valgrind/B_ninebyte.txt
-  - tests/valgrind/B_simple_multi.txt
-  - tests/valgrind/B_simple_multi.txt
-  - tests/valgrind/B_simple_multi.txt
-  - tests/valgrind/B_simple_multi.txt
-  - tests/valgrind/B_simple.txt
-  - tests/valgrind/B_simple.txt
-  - tests/valgrind/D_onebyte.txt
-  - tests/valgrind/D_onebyte.txt
-  - tests/valgrind/D_onebyte.txt
-  - tests/valgrind/D_onebyte.txt
+No uninitialized value found.

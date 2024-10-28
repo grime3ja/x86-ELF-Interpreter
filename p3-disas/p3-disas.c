@@ -55,6 +55,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if (ins.ifun.b > 6 || ins.ra > 14 || ins.rb > 14) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             break;
         case IRMOVQ:
@@ -66,6 +67,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if ((memory[cpu->pc] & 0x0f) != 0 || ins.ra != 0xf || ins.rb > 14) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             break;
         case RMMOVQ:
@@ -76,6 +78,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if ((memory[cpu->pc] & 0x0f) != 0 || ins.ra > 14) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             break;
         case MRMOVQ:
@@ -86,6 +89,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if ((memory[cpu->pc] & 0x0f) != 0 || ins.ra > 14) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             break;
         case OPQ:
@@ -97,6 +101,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if (ins.ifun.b > 3 || ins.ra > 14 || ins.rb > 14) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             break;
         case JUMP:
@@ -106,12 +111,14 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if (ins.ifun.b > 6) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             break;
         case CALL:
             if ((memory[cpu->pc] & 0x0f) != 0) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             memcpy(&ins.valC.dest, &memory[cpu->pc + 1], 8);
             ins.valP += 9;
@@ -128,6 +135,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if ((memory[cpu->pc] & 0x0f) != 0 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc + 1] & 0x0f) != 0xf) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = 0xf;
@@ -137,6 +145,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if ((memory[cpu->pc] & 0x0f) != 0 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc + 1] & 0x0f) != 0xf) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = 0xf;
@@ -148,6 +157,7 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             if (ins.ifun.b > 5) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
+                break;
             }
             break;
         default:
@@ -164,6 +174,10 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
 void disassemble (y86_inst_t *inst)
 {
     int registers = disassemble_icode(inst);
+    if (registers < 1) {
+        printf("\n");
+        return;
+    }
     char *ra = disassemble_register(inst->ra);
     char *rb = disassemble_register(inst->rb);
 
