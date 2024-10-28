@@ -1,0 +1,60 @@
+==480984== Memcheck, a memory error detector
+==480984== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==480984== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==480984== Command: ../y86 -d inputs/onebyte.o
+==480984== 
+==480984== Conditional jump or move depends on uninitialised value(s)
+==480984==    at 0x10A94D: disassemble_register (p3-disas.c:383)
+==480984==    by 0x109FE4: disassemble (p3-disas.c:167)
+==480984==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
+==480984==    by 0x10974C: main (main.c:141)
+==480984==  Uninitialised value was created by a stack allocation
+==480984==    at 0x109790: fetch (p3-disas.c:16)
+==480984== 
+==480984== Use of uninitialised value of size 8
+==480984==    at 0x10A965: disassemble_register (p3-disas.c:383)
+==480984==    by 0x109FE4: disassemble (p3-disas.c:167)
+==480984==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
+==480984==    by 0x10974C: main (main.c:141)
+==480984==  Uninitialised value was created by a stack allocation
+==480984==    at 0x109790: fetch (p3-disas.c:16)
+==480984== 
+==480984== Conditional jump or move depends on uninitialised value(s)
+==480984==    at 0x10A94D: disassemble_register (p3-disas.c:383)
+==480984==    by 0x109FF6: disassemble (p3-disas.c:168)
+==480984==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
+==480984==    by 0x10974C: main (main.c:141)
+==480984==  Uninitialised value was created by a stack allocation
+==480984==    at 0x109790: fetch (p3-disas.c:16)
+==480984== 
+==480984== Use of uninitialised value of size 8
+==480984==    at 0x10A965: disassemble_register (p3-disas.c:383)
+==480984==    by 0x109FF6: disassemble (p3-disas.c:168)
+==480984==    by 0x10A4C4: disassemble_code (p3-disas.c:250)
+==480984==    by 0x10974C: main (main.c:141)
+==480984==  Uninitialised value was created by a stack allocation
+==480984==    at 0x109790: fetch (p3-disas.c:16)
+==480984== 
+Disassembly of executable contents:
+  0x100:                               | .pos 0x100 code
+  0x100:                               | _start:
+  0x100: 00                            |   halt
+  0x101: 10                            |   nop
+  0x102: 90                            |   ret
+
+==480984== 
+==480984== HEAP SUMMARY:
+==480984==     in use at exit: 472 bytes in 1 blocks
+==480984==   total heap usage: 5 allocs, 4 frees, 20,972 bytes allocated
+==480984== 
+==480984== LEAK SUMMARY:
+==480984==    definitely lost: 0 bytes in 0 blocks
+==480984==    indirectly lost: 0 bytes in 0 blocks
+==480984==      possibly lost: 0 bytes in 0 blocks
+==480984==    still reachable: 472 bytes in 1 blocks
+==480984==         suppressed: 0 bytes in 0 blocks
+==480984== Reachable blocks (those to which a pointer was found) are not shown.
+==480984== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==480984== 
+==480984== For lists of detected and suppressed errors, rerun with: -s
+==480984== ERROR SUMMARY: 8 errors from 4 contexts (suppressed: 0 from 0)

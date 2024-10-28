@@ -48,52 +48,71 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             ins.valP += 1;
             break;
         case CMOV:
-            if ((memory[cpu->pc] & 0x0f) > 6 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc] & 0x0f) > 14) {
-                ins.icode = INVALID;
-                cpu->stat = INS;
-            }
             ins.ifun.b = memory[cpu->pc] & 0x0f;
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
             ins.valP += 2;
+            if (ins.ifun.b > 6 || ins.ra > 14 || ins.rb > 14) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             break;
         case IRMOVQ:
-            ins.ifun.b = 0;
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
             // copy 8 bytes from memory into valC
             memcpy(&ins.valC.v, &memory[cpu->pc + 2], 8);
             ins.valP += 10;
+            if ((memory[cpu->pc] & 0x0f) != 0 || ins.ra != 0xf || ins.rb > 14) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             break;
         case RMMOVQ:
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
             memcpy(&ins.valC.d, &memory[cpu->pc + 2], 8);
             ins.valP += 10;
+            if ((memory[cpu->pc] & 0x0f) != 0 || ins.ra > 14) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             break;
         case MRMOVQ:
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
             memcpy(&ins.valC.v, &memory[cpu->pc + 2], 8);
             ins.valP += 10;
-            break;
-        case OPQ:
-            // testing for edge cases in memory
-            if ((memory[cpu->pc] & 0x0f) > 3 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc] & 0x0f) > 14) {
+            if ((memory[cpu->pc] & 0x0f) != 0 || ins.ra > 14) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
             }
+            break;
+        case OPQ:
             ins.ifun.b = memory[cpu->pc] & 0x0f;
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
             ins.valP += 2;
+            // testing for edge cases in memory
+            if (ins.ifun.b > 3 || ins.ra > 14 || ins.rb > 14) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             break;
         case JUMP:
             ins.ifun.b = memory[cpu->pc] & 0x0f;
             memcpy(&ins.valC.dest, &memory[cpu->pc + 1], 8);
             ins.valP += 9;
+            if (ins.ifun.b > 6) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             break;
         case CALL:
+            if ((memory[cpu->pc] & 0x0f) != 0) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             memcpy(&ins.valC.dest, &memory[cpu->pc + 1], 8);
             ins.valP += 9;
             break;
@@ -126,6 +145,10 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
         case IOTRAP:
             ins.ifun.b = memory[cpu->pc] & 0x0f;
             ins.valP += 1;
+            if (ins.ifun.b > 5) {
+                ins.icode = INVALID;
+                cpu->stat = INS;
+            }
             break;
         default:
             ins.icode = INVALID;
@@ -144,9 +167,9 @@ void disassemble (y86_inst_t *inst)
     char *ra = disassemble_register(inst->ra);
     char *rb = disassemble_register(inst->rb);
 
-    if (registers > 0 && inst->ra != 0xf && inst->ra != inst->valC.v) {
+    if (registers > 0 && inst->ra != 0xf) {
         if (inst->icode == MRMOVQ) {
-            if (inst->rb == NOREG) {
+            if (inst->rb == 0xf) {
                 printf("0x%lx", inst->valC.d);
             } else {
                 printf("0x%lx(%s)", inst->valC.d, rb);
@@ -160,8 +183,8 @@ void disassemble (y86_inst_t *inst)
         if (inst->icode == MRMOVQ) {
             printf("%s", ra);
         } else if (inst->icode == RMMOVQ) {
-            if (inst->rb == NOREG) {
-                printf("0x%lx", inst->valC.v);
+            if (inst->rb == 0xf) {
+                printf("0x%lx", inst->valC.d);
             } else {
                 printf("0x%lx(%s)", inst->valC.d, rb);
             }
@@ -181,12 +204,13 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
     // start at beginning of the segment
     cpu.pc = phdr->p_vaddr;
 
-    printf("Disassembly of executable contents:\n");
-    printf("  0x100:                               | .pos 0x100 code\n");
-    printf("  0x100:                               | _start:\n");
+    printf("  0x%03x:                               | .pos 0x%03x code\n", phdr->p_vaddr, phdr->p_vaddr);
 
     // iterate through the segment one instruction at a time
     while (cpu.pc < phdr->p_vaddr + phdr->p_size) {
+        if (cpu.pc == hdr->e_entry) {
+            printf("  0x%03x:%31s| _start:\n", hdr->e_entry, " ");
+        }
         ins = fetch (&cpu, memory);         // stage 1: fetch instruction
 
         // abort with error if instruction was invalid
@@ -195,7 +219,7 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
             break;
         }
         // print current address and raw bytes of instruction
-        printf("  0x%lx: ", cpu.pc);
+        printf("  0x%03lx: ", cpu.pc);
         
         printf("%x%x ", ins.icode, ins.ifun.b);
         switch (ins.valP - cpu.pc) {

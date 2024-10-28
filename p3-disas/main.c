@@ -136,7 +136,10 @@ int main (int argc, char **argv)
         dump_memory(mem, 0, MEMSIZE);
     }
     if (d_flag) {
-        disassemble_code(mem, phdr, &hdr);
+        printf("Disassembly of executable contents:\n");
+        for (int i = 0; i < hdr.e_num_phdr; i++) {
+            disassemble_code(mem, &phdr[i], &hdr);
+        }
     }
 
     free(phdr);

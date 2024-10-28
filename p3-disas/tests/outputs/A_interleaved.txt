@@ -1,0 +1,30 @@
+Disassembly of executable contents:
+  0x100:                               | .pos 0x100 code
+  0x100:                               | _start:
+  0x100: 00                            |   halt
+
+  0x200:                               | .pos 0x200 code
+  0x200: 10                            |   nop
+  0x201: 00                            |   halt
+  0x202: 00                            |   halt
+  0x203: 00                            |   halt
+  0x204: 00                            |   halt
+  0x205: 00                            |   halt
+  0x206: 00                            |   halt
+  0x207: 00                            |   halt
+
+  0x300:                               | .pos 0x300 code
+  0x300: 74 65 73 74 00 00 00 00 00    |   jne 0x747365
+
+  0x400:                               | .pos 0x400 code
+  0x400: 10                            |   nop
+  0x401: 00                            |   halt
+
+  0x500:                               | .pos 0x500 code
+Invalid opcode: 0x78
+
+  0x600:                               | .pos 0x600 code
+  0x600: 61 67                         |   subq %rsi, %rdi
+  0x602: 61 69                         |   subq %rsi, %r9
+Invalid opcode: 0x6e
+
