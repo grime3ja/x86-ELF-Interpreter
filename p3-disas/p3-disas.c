@@ -6,7 +6,7 @@
 
 #include "p3-disas.h"
 int disassemble_icode(y86_inst_t *inst);
-void disassemble_register(y86_regnum_t reg);
+char * disassemble_register(y86_regnum_t reg);
 
 /**********************************************************************
  *                         REQUIRED FUNCTIONS
@@ -24,11 +24,14 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
         cpu->stat = INS;
         return ins;
     }
+    // setting default values to limit code repetition
     ins.icode = memory[cpu->pc] >> 4;
     ins.ifun.b = 0;
     ins.valP = cpu->pc;
+
     switch (ins.icode) {
         case HALT:
+            // if the low order 4 bits aren't 0
             if ((memory[cpu->pc] & 0x0f) != 0) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
@@ -58,23 +61,24 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             ins.ifun.b = 0;
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
-            // valC ← M8[PC+2]
-            // memcpy(&ins.valC.v, &memory[cpu->pc + 1], 8);
+            // copy 8 bytes from memory into valC
+            memcpy(&ins.valC.v, &memory[cpu->pc + 2], 8);
             ins.valP += 10;
             break;
         case RMMOVQ:
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
-            // valC ← M8[PC+2]
+            memcpy(&ins.valC.d, &memory[cpu->pc + 2], 8);
             ins.valP += 10;
             break;
         case MRMOVQ:
             ins.ra = memory[cpu->pc + 1] >> 4;
             ins.rb = memory[cpu->pc + 1] & 0x0f;
-            // valC ← M8[PC+2]
+            memcpy(&ins.valC.v, &memory[cpu->pc + 2], 8);
             ins.valP += 10;
             break;
         case OPQ:
+            // testing for edge cases in memory
             if ((memory[cpu->pc] & 0x0f) > 3 || (memory[cpu->pc + 1] >> 4) > 14 || (memory[cpu->pc] & 0x0f) > 14) {
                 ins.icode = INVALID;
                 cpu->stat = INS;
@@ -85,14 +89,12 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             ins.valP += 2;
             break;
         case JUMP:
-            ins.ra = memory[cpu->pc + 1] >> 4;
-            ins.rb = 0xf;
-            // valC ← M8[PC+2]
+            ins.ifun.b = memory[cpu->pc] & 0x0f;
+            memcpy(&ins.valC.dest, &memory[cpu->pc + 1], 8);
             ins.valP += 9;
             break;
         case CALL:
-
-            // valC ← M8[PC+2]
+            memcpy(&ins.valC.dest, &memory[cpu->pc + 1], 8);
             ins.valP += 9;
             break;
         case RET:
@@ -139,13 +141,33 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
 void disassemble (y86_inst_t *inst)
 {
     int registers = disassemble_icode(inst);
+    char *ra = disassemble_register(inst->ra);
+    char *rb = disassemble_register(inst->rb);
 
-    if (registers > 0) {
-        disassemble_register(inst->ra);
+    if (registers > 0 && inst->ra != 0xf && inst->ra != inst->valC.v) {
+        if (inst->icode == MRMOVQ) {
+            if (inst->rb == NOREG) {
+                printf("0x%lx", inst->valC.d);
+            } else {
+                printf("0x%lx(%s)", inst->valC.d, rb);
+            }
+        } else {
+            printf("%s", ra);
+        }
     }
     if (registers > 1) {
         printf(", ");
-        disassemble_register(inst->rb);
+        if (inst->icode == MRMOVQ) {
+            printf("%s", ra);
+        } else if (inst->icode == RMMOVQ) {
+            if (inst->rb == NOREG) {
+                printf("0x%lx", inst->valC.v);
+            } else {
+                printf("0x%lx(%s)", inst->valC.d, rb);
+            }
+        } else {
+            printf("%s", rb);
+        }
     }
     printf("\n");
 }
@@ -176,17 +198,21 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
         printf("  0x%lx: ", cpu.pc);
         
         printf("%x%x ", ins.icode, ins.ifun.b);
-        if (ins.valP - cpu.pc > 1) {
-            printf("%x%x ", ins.ra, ins.rb);
-        }
-
         switch (ins.valP - cpu.pc) {
             case 10:
+                printf("%x%x ", ins.ra, ins.rb);
                 for (int i = cpu.pc + 2; i < cpu.pc + 10; i++) {
                     printf("%02x ", memory[i]);
                 }
                 break;
+            case 9:
+                for (int i = cpu.pc + 1; i < cpu.pc + 9; i++) {
+                    printf("%02x ", memory[i]);
+                }
+                printf("%3s", " ");
+                break;
             case 2:
+                printf("%x%x ", ins.ra, ins.rb);
                 printf("%24s", " ");
                 break;
             case 1:
@@ -244,12 +270,15 @@ int disassemble_icode(y86_inst_t *inst)
             break;
         // TODO
         case IRMOVQ:
+            printf("irmovq 0x%lx", inst->valC.v);
             registers = 2;
             break;
         case RMMOVQ:
+            printf("rmmovq ");
             registers = 2;
             break;
         case MRMOVQ:
+            printf("mrmovq ");
             registers = 2;
             break;
         case OPQ:
@@ -273,8 +302,36 @@ int disassemble_icode(y86_inst_t *inst)
             registers = 2;
             break;
         case JUMP:
+            switch (inst->ifun.b) {
+                case JMP:
+                    printf("jmp ");
+                    break;
+                case JLE:
+                    printf("jle ");
+                    break;
+                case JL:
+                    printf("jl ");
+                    break;
+                case JE:
+                    printf("je ");
+                    break;
+                case JNE:
+                    printf("jne ");
+                    break;
+                case JGE:
+                    printf("jge ");
+                    break;
+                case JG:
+                    printf("jg ");
+                    break;
+                case BADJUMP:
+                    printf("badjump");
+                    break;
+            }
+            printf("0x%lx", inst->valC.dest);
             break;
         case CALL:
+            printf("call 0x%lx", inst->valC.dest);
             break;
         case RET:
             printf("ret");
@@ -297,58 +354,43 @@ int disassemble_icode(y86_inst_t *inst)
     return registers;
 }
 
-void disassemble_register (y86_regnum_t reg)
+char * disassemble_register (y86_regnum_t reg)
 {
     switch(reg) {
         case RAX:
-            printf("%%rax");
-            break;
+            return "%rax";
         case RCX:
-            printf("%%rcx");
-            break;
+            return "%rcx";
         case RDX:
-            printf("%%rdx");
-            break;
+            return "%rdx";
         case RBX:
-            printf("%%rbx");
-            break;
+            return "%rbx";
         case RSP:
-            printf("%%rsp");
-            break;
+            return "%rsp";
         case RBP:
-            printf("%%rbp");
-            break;
+            return "%rbp";
         case RSI:
-            printf("%%rsi");
-            break;
+            return "%rsi";
         case RDI:
-            printf("%%rdi");
-            break;
+            return "%rdi";
         case R8:
-            printf("%%r8");
-            break;
+            return "%r8";
         case R9:
-            printf("%%r9");
-            break;
+            return "%r9";
         case R10:
-            printf("%%r10");
-            break;
+            return "%r10";
         case R11:
-            printf("%%r11");
-            break;
+            return "%r11";
         case R12:
-            printf("%%r12");
-            break;
+            return "%r12";
         case R13:
-            printf("%%r13");
-            break;
+            return "%r13";
         case R14:
-            printf("%%r14");
-            break;
+            return "%r14";
         case NOREG:
-            printf("noreg");
-            break;
+            return "noreg";
     }
+    return NULL;
 }
 
 void disassemble_data (byte_t *memory, elf_phdr_t *phdr)

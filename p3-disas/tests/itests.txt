@@ -1,8 +1,0 @@
-D_onebyte                      pass
-C_help                         pass
-C_twobyte                      pass
-C_cmov                         pass
-C_opq                          pass
-B_ninebyte                     FAIL (see tests/outputs/B_ninebyte.diff for details)
-B_jmp                          FAIL (see tests/outputs/B_jmp.diff for details)
-B_tenbyte                      FAIL (see tests/outputs/B_tenbyte.diff for details)
