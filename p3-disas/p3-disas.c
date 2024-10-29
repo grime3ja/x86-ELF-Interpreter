@@ -180,6 +180,10 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
             ins.icode = INVALID;
             cpu->stat = INS;
     }
+    if (ins.valP > MEMSIZE) {
+        ins.icode = INVALID;
+        cpu->stat = ADR;
+    }
     return ins;
 }
 
