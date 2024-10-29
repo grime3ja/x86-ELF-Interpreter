@@ -5,13 +5,29 @@
  */
 
 #include "p3-disas.h"
+/**
+ * disassemble the icode (helper function for readability).
+ * @param inst: the instruction to disassemble the icode
+ * @return: the number of registers associated with that icode
+ */
 int disassemble_icode(y86_inst_t *inst);
+
+/**
+ * disassemble the register if there are any (helper function for readability).
+ * @param reg: the register to disassemble
+ * @return: the register, formatted as "%*register*" (ex. %rax)
+ */
 char * disassemble_register(y86_regnum_t reg);
 
 /**********************************************************************
  *                         REQUIRED FUNCTIONS
  *********************************************************************/
 
+/**
+ * load y86 instruction from memory.
+ * @param cpu: the pointer to the cpu structure
+ * @param memory: the pointer to the beginning of the instruction set
+ */
 y86_inst_t fetch (y86_t *cpu, byte_t *memory)
 {
     y86_inst_t ins;
@@ -171,17 +187,23 @@ y86_inst_t fetch (y86_t *cpu, byte_t *memory)
  *                         OPTIONAL FUNCTIONS
  *********************************************************************/
 
+/**
+ * disassemble the instruction.
+ * @param inst: pointer to the instruction 
+ */
 void disassemble (y86_inst_t *inst)
 {
     int registers = disassemble_icode(inst);
+    // are there registers for the given instruction?
     if (registers < 1) {
         printf("\n");
         return;
     }
+    // if so, set them as %*register*
     char *ra = disassemble_register(inst->ra);
     char *rb = disassemble_register(inst->rb);
 
-    if (registers > 0 && inst->ra != 0xf) {
+    if (inst->ra != 0xf) {
         if (inst->icode == MRMOVQ) {
             if (inst->rb == 0xf) {
                 printf("0x%lx", inst->valC.d);
@@ -209,7 +231,12 @@ void disassemble (y86_inst_t *inst)
     printf("\n");
 }
 
-
+/**
+ * disassemble the memory set if the type is code.
+ * @param memory: pointer to the memory set
+ * @param phdr: pointer to the current program header
+ * @param hdr: pointer to the overall elf header
+ */
 void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
 {
     y86_t cpu;			// CPU struct to store "fake" PC
@@ -222,7 +249,9 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
 
     // iterate through the segment one instruction at a time
     while (cpu.pc < phdr->p_vaddr + phdr->p_size) {
+        // are we at the start?
         if (cpu.pc == hdr->e_entry) {
+            // if so, print the following prompt and continue
             printf("  0x%03x:%31s| _start:\n", hdr->e_entry, " ");
         }
         ins = fetch (&cpu, memory);         // stage 1: fetch instruction
@@ -236,6 +265,7 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
         printf("  0x%03lx: ", cpu.pc);
         
         printf("%x%x ", ins.icode, ins.ifun.b);
+        // formatting of disassembly
         switch (ins.valP - cpu.pc) {
             case 10:
                 printf("%x%x ", ins.ra, ins.rb);
@@ -267,6 +297,11 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
     printf("\n");
 }
 
+/**
+ * disassemble the icode (look at function definition for more).
+ * @param inst: the instruction to disassemble
+ * @return: the number of registers in the instruction
+ */
 int disassemble_icode(y86_inst_t *inst)
 {
     int registers = 0;
@@ -306,7 +341,6 @@ int disassemble_icode(y86_inst_t *inst)
             }
             registers = 2;
             break;
-        // TODO
         case IRMOVQ:
             printf("irmovq 0x%lx", inst->valC.v);
             registers = 2;
@@ -382,7 +416,6 @@ int disassemble_icode(y86_inst_t *inst)
             printf("popq ");
             registers = 1;
             break;
-        // TODO
         case IOTRAP:
             printf("iotrap %d", inst->ifun.trap);
             break;
@@ -392,6 +425,11 @@ int disassemble_icode(y86_inst_t *inst)
     return registers;
 }
 
+/**
+ * disassemble the register of the instruction (look at function definition for more information)
+ * @param reg: the register to disassemble
+ * @return: the formatted register to print
+ */
 char * disassemble_register (y86_regnum_t reg)
 {
     switch(reg) {
@@ -433,9 +471,67 @@ char * disassemble_register (y86_regnum_t reg)
 
 void disassemble_data (byte_t *memory, elf_phdr_t *phdr)
 {
+    y86_t cpu;			// CPU struct to store "fake" PC
+    // start at beginning of the segment
+    cpu.pc = phdr->p_vaddr;
+    int64_t mem;
+
+    printf("  0x%03x:                               | .pos 0x%03x data\n", phdr->p_vaddr, phdr->p_vaddr);
+
+    // iterate through the segment one instruction at a time
+    while (cpu.pc < phdr->p_vaddr + phdr->p_size) {
+        // print current address
+        printf("  0x%03lx: ", cpu.pc);
+        for (int i = cpu.pc; i < cpu.pc + 8; i++) {
+            printf("%02x ", memory[i]);
+        }
+        printf("%6s|   ", " ");
+
+        memcpy(&mem, &memory[cpu.pc], 8);
+        printf(".quad 0x%lx", mem);
+
+        cpu.pc += 0x8;
+        printf("\n");
+    }
+    printf("\n");
 }
 
 void disassemble_rodata (byte_t *memory, elf_phdr_t *phdr)
 {
+    y86_t cpu;			// CPU struct to store "fake" PC
+    int count = 0;
+    byte_t *buffer;
+
+    // start at beginning of the segment
+    cpu.pc = phdr->p_vaddr;
+    int i = cpu.pc;
+
+    printf("  0x%03x:                               | .pos 0x%03x rodata\n", phdr->p_vaddr, phdr->p_vaddr);
+
+    // iterate through the segment one instruction at a time
+    while (cpu.pc < phdr->p_vaddr + phdr->p_size) {
+        // print current address
+        printf("  0x%03lx: ", cpu.pc);
+        count = 0;
+        for (; memory[i] != 0x0 && ++count < 10; i++) {
+            printf("%02x ", memory[i]);
+        }
+        printf("%02x ", memory[i++]);
+        for (int j = (count - 1) % 10; j < 8; j++) {
+            printf("   ");
+        }
+        printf("|   .string \"");
+        buffer = (byte_t *) calloc(sizeof(char), count);
+        memcpy(buffer, &memory[cpu.pc], count);
+        for (int j = 0; j < count; j++) {
+            printf("%c", buffer[j]);
+        }
+        printf("\"");
+
+        cpu.pc = i;
+        printf("\n");
+        free(buffer);
+    }
+    printf("\n");
 }
 

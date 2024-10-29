@@ -1,7 +1,0 @@
-Running suite(s): Default
-20 ff = 13
-88%: Checks: 34, Failures: 4, Errors: 0
-private.c:642:F:Private:A_errors_fetch_invalid_pc:0: Assertion 'inst.icode== INVALID' failed
-private.c:679:F:Private:A_errors_fetch_invalid_pc_cmov:0: Assertion 'inst.icode== INVALID' failed
-private.c:698:F:Private:A_errors_fetch_invalid_pc_call:0: Assertion 'inst.icode== INVALID' failed
-private.c:718:F:Private:A_errors_fetch_invalid_pc_rmmov:0: Assertion 'inst.icode== INVALID' failed

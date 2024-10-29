@@ -66,8 +66,10 @@ int main (int argc, char **argv)
                 break;
             case 'd':
                 d_flag = true;
+                break;
             case 'D':
                 upper_d_flag = true;
+                break;
         }
     }
 
@@ -108,13 +110,6 @@ int main (int argc, char **argv)
             exit(EXIT_FAILURE);
         }
     }
-    // y86_t cpu;
-    // y86_inst_t inst;
-
-    // for (int i = 0; i < phdr->p_size; i++) {
-    //     inst = fetch(&cpu, &mem[cpu.pc]);
-    //     cpu.pc += inst.valP;
-    // }
 
     if (m_flag && upper_m_flag) {
         usage(argv);
@@ -138,13 +133,22 @@ int main (int argc, char **argv)
     if (d_flag) {
         printf("Disassembly of executable contents:\n");
         for (int i = 0; i < hdr.e_num_phdr; i++) {
-            disassemble_code(mem, &phdr[i], &hdr);
+            if (phdr[i].p_type == CODE) {
+                disassemble_code(mem, &phdr[i], &hdr);
+            }
         }
     }
 
-    // if (upper_d_flag) {
-    //     disassemble_data(mem, phdr);
-    // }
+    if (upper_d_flag) {
+        printf("Disassembly of data contents:\n");
+        for (int i = 0; i < hdr.e_num_phdr; i++) {
+            if (phdr[i].p_type == DATA && phdr[i].p_flags > 4) {
+                disassemble_data(mem, &phdr[i]);
+            } else if (phdr[i].p_type == DATA && phdr[i].p_flags == 4) {
+                disassemble_rodata(mem, &phdr[i]);
+            }
+        }
+    }
 
     free(phdr);
     free(mem);
