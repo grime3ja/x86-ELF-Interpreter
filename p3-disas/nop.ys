@@ -1,7 +1,3 @@
 .pos 0x100 code
 _start:
-    pushq %rdi
-    nop
-    rrmovq %rax, %rcx
-    halt
-    addq %rax, %rcx
+    xorq %rsi, %rdi

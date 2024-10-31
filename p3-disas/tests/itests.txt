@@ -20,12 +20,12 @@ A_bad_no_elf                   pass
 A_bad_phdr                     pass
 A_bad_short_header             pass
 A_bad_short_phdr               pass
-A_bad_filename                 FAIL (see tests/outputs/A_bad_filename.diff for details)
-A_missing_file                 FAIL (crash or timeout)
+A_bad_filename                 pass
+A_missing_file                 pass
 A_extra_params                 pass
 A_unaligned1                   pass
 A_unaligned2                   pass
-A_rodata_long                  FAIL (see tests/outputs/A_rodata_long.diff for details)
-A_rodata_shakespeare           FAIL (see tests/outputs/A_rodata_shakespeare.diff for details)
+A_rodata_long                  pass
+A_rodata_shakespeare           pass
 No memory leak found.
 No uninitialized value found.

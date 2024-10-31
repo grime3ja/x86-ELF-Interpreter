@@ -276,8 +276,8 @@ void disassemble_code (byte_t *memory, elf_phdr_t *phdr, elf_hdr_t *hdr)
     // start at beginning of the segment
     cpu.pc = phdr->p_vaddr;
 
-    printf("  0x%03x: %30s| .pos 0x%03x code\n",
-           phdr->p_vaddr, " ", phdr->p_vaddr);
+    printf("  0x%03x: %30s| .pos 0x%03x code\n", 
+        phdr->p_vaddr, " ", phdr->p_vaddr);
 
     // iterate through the segment one instruction at a time
     while (cpu.pc < phdr->p_vaddr + phdr->p_size) {

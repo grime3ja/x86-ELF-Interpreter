@@ -71,7 +71,7 @@ int main (int argc, char **argv)
             case 'D':
                 upper_d_flag = true;
                 break;
-            default:
+           default:
                 usage(argv);
                 exit(EXIT_FAILURE);
         }
@@ -89,14 +89,14 @@ int main (int argc, char **argv)
         printf("Failed to read file\n");
         exit(EXIT_FAILURE);
     }
-
+    
     elf_hdr_t hdr;
     if (!read_header(file, &hdr)) {
         printf("Failed to read file\n");
         exit(EXIT_FAILURE);
     }
 
-    elf_phdr_t *phdr =
+    elf_phdr_t *phdr = 
         (elf_phdr_t *) calloc(hdr.e_num_phdr, sizeof(elf_phdr_t));
     byte_t *mem = (byte_t *) calloc(MEMSIZE, 1);
     int offset = hdr.e_phdr_start;
@@ -127,7 +127,7 @@ int main (int argc, char **argv)
     if (m_flag) {
         for (int i = 0; i < hdr.e_num_phdr; i++) {
             dump_memory
-            (mem, phdr[i].p_vaddr, phdr[i].p_vaddr + phdr[i].p_size);
+                (mem, phdr[i].p_vaddr, phdr[i].p_vaddr + phdr[i].p_size);
         }
     }
     if (upper_m_flag) {
