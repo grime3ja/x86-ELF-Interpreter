@@ -1,0 +1,25 @@
+Running suite(s): Default
+30%: Checks: 33, Failures: 23, Errors: 0
+public.c:199:F:Public:C_func_decode_opq:0: Assertion 'valE == expected_valE' failed
+public.c:279:F:Public:C_func_memory_irmovq:0: Assertion 'cpu.reg[reg] == valE' failed
+public.c:308:F:Public:C_func_memory_opq:0: Assertion 'cpu.reg[reg] == valE' failed
+public.c:252:F:Public:C_error_decode_invalid_opq:0: Assertion 'cpu.stat == INS' failed
+private.c:62:F:Private:B_func_decode_rmmovq:0: Assertion 'valA == expected_valA' failed
+private.c:155:F:Private:B_func_decode_mrmovq:0: Assertion 'valE == expected_valE' failed
+private.c:185:F:Private:B_func_decode_pushq:0: Assertion 'valE == regs[RSP] - 8' failed
+private.c:216:F:Private:B_func_decode_popq:0: Assertion 'valE == regs[RSP] + 8' failed
+private.c:247:F:Private:B_func_decode_call:0: Assertion 'valE == regs[RSP] - 8' failed
+private.c:277:F:Private:B_func_decode_ret:0: Assertion 'valE == regs[RSP] + 8' failed
+private.c:326:F:Private:B_func_memory_rmmovq:0: Assertion 'value_in_memory == val' failed
+private.c:375:F:Private:B_func_memory_mrmovq:0: Assertion 'cpu.reg[ra] == val' failed
+private.c:422:F:Private:B_func_memory_pushq:0: Assertion 'cpu.reg[RSP] == rsp-8' failed
+private.c:468:F:Private:B_func_memory_popq:0: Assertion 'cpu.reg[ra] == val' failed
+private.c:514:F:Private:B_func_memory_call:0: Assertion 'cpu.reg[RSP] == rsp-8' failed
+private.c:558:F:Private:B_func_memory_ret:0: Assertion 'cpu.reg[RSP] == rsp+8' failed
+private.c:764:F:Private:B_error_memory_mrmovq_bad_memory_address:0: Assertion 'cpu.stat == ADR' failed
+private.c:606:F:Private:A_func_decode_cmov:0: Assertion 'valE == expected_valE' failed
+private.c:668:F:Private:A_func_decode_jump:0: Assertion 'cnd == expected_cnd[jump][0]' failed
+private.c:702:F:Private:A_error_decode_invalid_icode:0: Assertion 'cpu.stat == INS' failed
+private.c:722:F:Private:A_error_decode_invalid_cmov:0: Assertion 'cpu.stat == INS' failed
+private.c:742:F:Private:A_error_decode_invalid_jump:0: Assertion 'cpu.stat == INS' failed
+private.c:822:F:Private:A_error_memory_null_memory:0: Assertion 'cpu.stat == INS' failed
