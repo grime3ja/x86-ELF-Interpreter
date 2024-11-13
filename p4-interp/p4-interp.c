@@ -13,6 +13,7 @@
 y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *valA)
 {
     y86_reg_t valE = 0;
+    y86_reg_t valB = 0;
     if (cpu == NULL) {
         inst->icode = INVALID;
         return valE;
@@ -29,20 +30,47 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
         case NOP:
             break;
         case CMOV:
-            // *valA = inst->ra;
-            // valA = cpu->reg[]
+            *valA = cpu->reg[inst->ra];
             valE = *valA;
             // Cnd ← Cond(CC,ifun)
         case IRMOVQ:
             valE = inst->valC.v;
             break;
         case RMMOVQ:
-            *valA = inst->ra;
-            valE = inst->rb + inst->valC.d;
+            *valA = cpu->reg[inst->ra];
+            valB = cpu->reg[inst->rb];
+            valE = valB + inst->valC.d;
             break;
         case MRMOVQ:
-            valE = inst->rb + inst->valC.d;
+            valB = cpu->reg[inst->rb];
+            valE = valB + inst->valC.d;
             break;
+        case OPQ:
+            *valA = cpu->reg[inst->ra];
+            valB = cpu->reg[inst->rb];
+            switch (inst->ifun.op) {
+                case ADD:
+                    valE = *valA + valB;
+                    break;
+                case SUB:
+                    valE = valB - *valA;
+                    break;
+                case AND:
+                    valE = *valA & valB;
+                    break;
+                case XOR:
+                    valE = *valA ^ valB;
+                    break;
+                default:
+                    cpu->stat = INS;
+                    break;
+            }
+            if (valE == 0) {
+                cpu->zf = 1;
+            } 
+            if (valE < 0) {
+                cpu->sf = 1;
+            }
         default:
             break;
     }
@@ -52,18 +80,15 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
 void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         bool cnd, y86_reg_t valA, y86_reg_t valE)
 {
+    if (cpu == NULL || inst == NULL || memory == NULL) {
+        return;
+    }
     switch (inst->icode) {
-        case HALT:
-            cpu->pc = inst->valP;
-            break;
-        case NOP:
-            cpu->pc = inst->valP;
-            break;
         case CMOV:
             // Cnd ? R[rB] ← valE 
             break;
         case IRMOVQ:
-            inst->rb = valE;
+            cpu->reg[inst->rb] = valE;
             break;
         case RMMOVQ:
             memcpy(&valE, &valA, 8);
@@ -71,9 +96,13 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         case MRMOVQ:
             memcpy(&(inst->ra), &valE, 8);
             break;
+        case OPQ:
+            cpu->reg[inst->rb] = valE;
+            break;
         default:
             break;
     }
+    cpu->pc = inst->valP;
 }
 
 /**********************************************************************

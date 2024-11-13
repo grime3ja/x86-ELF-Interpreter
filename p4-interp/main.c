@@ -150,6 +150,8 @@ int main (int argc, char **argv)
     bool cnd;
     y86_reg_t valA, valE;
 
+    int instructions = 0;
+
     memset(&cpu.reg, 0, sizeof(cpu.reg));
 
     cpu.stat = AOK;
@@ -197,12 +199,14 @@ int main (int argc, char **argv)
             printf("\n");
             dump_cpu_state(&cpu);
         }
+
+        instructions++;
     }
     if (e_flag) {
         dump_cpu_state(&cpu);
     }
     if (upper_e_flag || e_flag) {
-        printf("Total execution count: %d\n", hdr.e_num_phdr);
+        printf("Total execution count: %d\n", instructions);
     }
     if (upper_e_flag) {
         printf("\n");

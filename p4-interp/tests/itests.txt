@@ -1,3 +1,0 @@
-D_help                         pass
-D_nop_hlt                      pass
-D_nop_hlt_debug                pass
