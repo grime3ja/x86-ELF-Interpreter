@@ -147,11 +147,12 @@ int main (int argc, char **argv)
 
     y86_t cpu;
     y86_inst_t inst;
-    bool cnd;
-    y86_reg_t valA, valE;
+    bool cnd = false;
+    y86_reg_t valA = 0, valE = 0;
 
     int instructions = 0;
 
+    memset (&cpu, 0, sizeof (cpu));
     memset(&cpu.reg, 0, sizeof(cpu.reg));
 
     cpu.stat = AOK;

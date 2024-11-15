@@ -31,8 +31,35 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             break;
         case CMOV:
             *valA = cpu->reg[inst->ra];
-            valE = *valA;
-            // Cnd ← Cond(CC,ifun)
+            valE = cpu->reg[inst->ra];
+            switch (inst->ifun.cmov) {
+                case RRMOVQ:
+                
+                break;
+                case CMOVLE:
+                    *cnd = *valA <= cpu->reg[inst->rb];
+                    break;
+                case CMOVL:
+                    *cnd = *valA < cpu->reg[inst->rb];
+                    break;
+                case CMOVE:
+                    *cnd = *valA == cpu->reg[inst->rb];
+                    break;
+                case CMOVNE:
+                    *cnd = *valA != cpu->reg[inst->rb];
+                    break;
+                case CMOVGE:
+                    *cnd = *valA >= cpu->reg[inst->rb];
+                    break;
+                case CMOVG:
+                    *cnd = *valA > cpu->reg[inst->rb];
+                    break;
+                default:
+                    cpu->stat = INS;
+                    inst->ifun.cmov = BADCMOV;
+                    break;
+            }
+            break;
         case IRMOVQ:
             valE = inst->valC.v;
             break;
@@ -51,9 +78,11 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             switch (inst->ifun.op) {
                 case ADD:
                     valE = *valA + valB;
+                    cpu->of = valE > 255 ? 1 : 0;
                     break;
                 case SUB:
                     valE = valB - *valA;
+                    cpu->of = valE > 255 ? 1 : 0;
                     break;
                 case AND:
                     valE = *valA & valB;
@@ -67,11 +96,37 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             }
             if (valE == 0) {
                 cpu->zf = 1;
-            } 
-            if (valE < 0) {
-                cpu->sf = 1;
+            } else {
+                cpu->zf = 0;
             }
+            if (valE < 0 || valE >> 60 == 0xf || valE >> 60 == 0x8) {
+                cpu->sf = 1;
+            } else {
+                cpu->sf = 0;
+            }
+            break;
+        case PUSHQ:
+            *valA = cpu->reg[inst->ra];
+            valB = cpu->reg[RSP];
+            valE = valB - 8;
+            break;
+        case POPQ:
+            *valA = cpu->reg[RSP];
+            valB = cpu->reg[RSP];
+            valE = valB + 8;
+            break;
+        case RET:
+            *valA = cpu->reg[RSP];
+            valB = cpu->reg[RSP];
+            valE = valB + 8;
+            break;
+        case CALL:
+            valB = cpu->reg[RSP];
+            valE = valB - 8;
+            break;
         default:
+            inst->icode = INVALID;
+            cpu->stat = INS;
             break;
     }
     return valE;
@@ -80,29 +135,61 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
 void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         bool cnd, y86_reg_t valA, y86_reg_t valE)
 {
-    if (cpu == NULL || inst == NULL || memory == NULL) {
+    if (cpu == NULL) {
         return;
     }
+    if (inst == NULL || memory == NULL) {
+        cpu->stat = INS;
+        return;
+    }
+    y86_reg_t valM = 0;
+    cpu->pc = inst->valP;
     switch (inst->icode) {
         case CMOV:
             // Cnd ? R[rB] ← valE 
+            if (cnd) {
+                cpu->reg[inst->rb] = valE;
+            }
             break;
         case IRMOVQ:
             cpu->reg[inst->rb] = valE;
             break;
         case RMMOVQ:
-            memcpy(&valE, &valA, 8);
+            memcpy(&memory[valE], &valA, 8);
             break;
         case MRMOVQ:
-            memcpy(&(inst->ra), &valE, 8);
+            if (valE + 8 > MEMSIZE) {
+                cpu->stat = ADR;
+                break;
+            }
+            memcpy(&valM, &memory[valE], 8);
+            cpu->reg[inst->ra] = valM;
             break;
         case OPQ:
             cpu->reg[inst->rb] = valE;
             break;
+        case PUSHQ:
+            memcpy(&memory[valE], &valA, 8);
+            cpu->reg[RSP] = valE;
+            break;
+        case POPQ:
+            memcpy(&valM, &memory[valA], 8);
+            cpu->reg[RSP] = valE;
+            cpu->reg[inst->ra] = valM;
+            break;
+        case RET:
+            memcpy(&valM, &memory[valA], 8);
+            cpu->reg[RSP] = valE;
+            cpu->pc = valM;
+            break;
+        case CALL:
+            memcpy(&memory[valE], &inst->valP, 8);
+            cpu->reg[RSP] = valE;
+            cpu->pc = inst->valC.dest;
+            break;
         default:
             break;
     }
-    cpu->pc = inst->valP;
 }
 
 /**********************************************************************
