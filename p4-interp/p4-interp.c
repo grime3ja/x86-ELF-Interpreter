@@ -150,6 +150,10 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             break;
         case CALL:
             valB = cpu->reg[RSP];
+            if (valB < 8) {
+                cpu->stat = ADR;
+                break;
+            }
             valE = valB - 8;
             break;
         default:
