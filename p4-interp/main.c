@@ -145,6 +145,11 @@ int main (int argc, char **argv)
         dump_memory(mem, 0, MEMSIZE);
     }
 
+    if (e_flag && upper_e_flag) {
+        usage(argv);
+        exit(EXIT_FAILURE);
+    }
+
     y86_t cpu;
     y86_inst_t inst;
     bool cnd = false;
@@ -192,13 +197,25 @@ int main (int argc, char **argv)
         // p4
 
         valE = decode_execute(&cpu, &inst, &cnd, &valA);
-        memory_wb_pc(&cpu, &inst, mem, cnd, valA, valE);
+        if (cpu.stat != INS) {
+            memory_wb_pc(&cpu, &inst, mem, cnd, valA, valE);
+        } else {
+            instructions--;
+        }
 
         if (upper_e_flag) {
-            printf("\nExecuting: ");
-            disassemble(&inst);
-            printf("\n");
-            dump_cpu_state(&cpu);
+            switch (cpu.stat) {
+                case INS:
+                    printf("\nInvalid instruction at 0x%04lx\n", cpu.pc);
+                    dump_cpu_state(&cpu);
+                    break;
+                default:
+                    printf("\nExecuting: ");
+                    disassemble(&inst);
+                    printf("\n");
+                    dump_cpu_state(&cpu);
+                    break;
+            }
         }
 
         instructions++;

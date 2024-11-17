@@ -34,25 +34,25 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             valE = cpu->reg[inst->ra];
             switch (inst->ifun.cmov) {
                 case RRMOVQ:
-                
-                break;
+                    *cnd = true;
+                    break;
                 case CMOVLE:
-                    *cnd = *valA <= cpu->reg[inst->rb];
+                    *cnd = (cpu->sf ^ cpu->of) | cpu->zf;
                     break;
                 case CMOVL:
-                    *cnd = *valA < cpu->reg[inst->rb];
+                    *cnd = cpu->sf ^ cpu->of;
                     break;
                 case CMOVE:
-                    *cnd = *valA == cpu->reg[inst->rb];
+                    *cnd = cpu->zf;
                     break;
                 case CMOVNE:
-                    *cnd = *valA != cpu->reg[inst->rb];
+                    *cnd = !cpu->zf;
                     break;
                 case CMOVGE:
-                    *cnd = *valA >= cpu->reg[inst->rb];
+                    *cnd = !(cpu->sf ^ cpu->of);
                     break;
                 case CMOVG:
-                    *cnd = *valA > cpu->reg[inst->rb];
+                    *cnd = !(cpu->sf ^ cpu->of) & !cpu->zf;
                     break;
                 default:
                     cpu->stat = INS;
@@ -60,6 +60,34 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
                     break;
             }
             break;
+        case JUMP:
+            switch(inst->ifun.jump) {
+                case JMP:
+                    *cnd = true;
+                    break;
+                case JLE:
+                    *cnd = (cpu->sf ^ cpu->of) | cpu->zf;
+                    break;
+                case JL:
+                    *cnd = cpu->sf ^ cpu->of;
+                    break;
+                case JE:
+                    *cnd = cpu->zf;
+                    break;
+                case JNE:
+                    *cnd = !cpu->zf;
+                    break;
+                case JGE:
+                    *cnd = !(cpu->sf ^ cpu->of);
+                    break;
+                case JG:
+                    *cnd = !(cpu->sf ^ cpu->of) & !cpu->zf;
+                    break;
+                default:
+                    cpu->stat = INS;
+                    inst->ifun.jump = BADJUMP;
+                    break;
+            }
         case IRMOVQ:
             valE = inst->valC.v;
             break;
@@ -146,10 +174,12 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
     cpu->pc = inst->valP;
     switch (inst->icode) {
         case CMOV:
-            // Cnd ? R[rB] ← valE 
             if (cnd) {
                 cpu->reg[inst->rb] = valE;
             }
+            break;
+        case JUMP:
+            cpu->pc = cnd ? inst->valC.dest : inst->valP;
             break;
         case IRMOVQ:
             cpu->reg[inst->rb] = valE;
