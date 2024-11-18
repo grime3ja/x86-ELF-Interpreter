@@ -6,6 +6,9 @@
 
 #include "p4-interp.h"
 
+char buffer[100];
+int index;
+
 /**********************************************************************
  *                         REQUIRED FUNCTIONS
  *********************************************************************/
@@ -156,6 +159,8 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             }
             valE = valB - 8;
             break;
+        case IOTRAP:
+            break;
         default:
             inst->icode = INVALID;
             cpu->stat = INS;
@@ -221,9 +226,33 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
             cpu->reg[RSP] = valE;
             cpu->pc = inst->valC.dest;
             break;
+        case IOTRAP:
+            switch (inst->ifun.trap) {
+                case CHAROUT:
+                    snprintf(&buffer[index++], 100, "%s", (char *) &memory[cpu->reg[RSI]]);
+                    break;
+                case CHARIN:
+                    // fscanf()
+                    break;
+                case DECOUT:
+                    break;
+                case DECIN:
+                    break;
+                case STROUT:
+                    break;
+                case FLUSH:
+                    printf("%s", buffer);
+                    break;
+                default:
+                    cpu->stat = INS;
+                    inst->ifun.trap = BADTRAP;
+                    break;
+            }
+            break;
         default:
             break;
     }
+    // free(buffer);
 }
 
 /**********************************************************************

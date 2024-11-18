@@ -6,7 +6,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/y86",
-      "args": ["-e", "tests/inputs/opq.o"],
+      "args": ["-e", "tests/inputs/nop_hlt.o"],
       "cwd": "."
     },
     {
@@ -34,7 +34,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/y86",
-      "args": ["-E", "tests/inputs/bad_nostack.o"],
+      "args": ["-e", "tests/inputs/bad_insn.o"],
       "cwd": "."
     },
     {

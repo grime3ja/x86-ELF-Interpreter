@@ -197,25 +197,31 @@ int main (int argc, char **argv)
         // p4
 
         valE = decode_execute(&cpu, &inst, &cnd, &valA);
-        if (cpu.stat != INS) {
-            memory_wb_pc(&cpu, &inst, mem, cnd, valA, valE);
-        } else {
-            instructions--;
-        }
 
-        if (upper_e_flag) {
-            switch (cpu.stat) {
-                case INS:
+        switch (cpu.stat) {
+            case INS:
+                if (upper_e_flag) {
                     printf("\nInvalid instruction at 0x%04lx\n", cpu.pc);
-                    dump_cpu_state(&cpu);
-                    break;
-                default:
+                }
+                dump_cpu_state(&cpu);
+                printf("Total execution count: %d\n", instructions);
+                if (upper_e_flag) {
+                    printf("\n");
+                    dump_memory(mem, 0, MEMSIZE);
+                }
+                exit(EXIT_FAILURE);
+            default:
+                if (upper_e_flag) {
                     printf("\nExecuting: ");
                     disassemble(&inst);
                     printf("\n");
-                    dump_cpu_state(&cpu);
-                    break;
-            }
+                }
+                break;
+        }
+
+        memory_wb_pc(&cpu, &inst, mem, cnd, valA, valE);
+        if (upper_e_flag && cpu.stat != INS) {
+            dump_cpu_state(&cpu);
         }
 
         instructions++;
