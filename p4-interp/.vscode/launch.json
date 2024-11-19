@@ -62,7 +62,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/y86",
-      "args": ["-E", "tests/inputs/iotrap_char.o"],
+      "args": ["-E", "tests/inputs/iotrap_buf2.o"],
       "cwd": "."
     },
     {

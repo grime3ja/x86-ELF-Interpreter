@@ -7,7 +7,10 @@
 #include "p4-interp.h"
 
 char buffer[100];
-int index;
+int bindex;
+int ints[100];
+int iindex;
+bool dec = false;
 
 /**********************************************************************
  *                         REQUIRED FUNCTIONS
@@ -181,6 +184,9 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
     }
     y86_reg_t valM = 0;
     cpu->pc = inst->valP;
+    int i = cpu->reg[RSI] + 8;
+    int bytes = 0;
+    
     switch (inst->icode) {
         case CMOV:
             if (cnd) {
@@ -229,19 +235,36 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         case IOTRAP:
             switch (inst->ifun.trap) {
                 case CHAROUT:
-                    snprintf(&buffer[index++], 100, "%s", (char *) &memory[cpu->reg[RSI]]);
+                    snprintf(&buffer[bindex++], 2, "%c", (char) memory[cpu->reg[RSI]]);
                     break;
                 case CHARIN:
-                    // fscanf()
                     break;
                 case DECOUT:
+                    while (memory[i] == 0 && i >= cpu->reg[RSI]) {
+                        i--;
+                        bytes++;
+                    }
+                    bytes--;
+                    memcpy(&ints[iindex++], &memory[cpu->reg[RSI]], 8 - bytes);
+                    dec = true;
                     break;
                 case DECIN:
                     break;
                 case STROUT:
+                    snprintf(&buffer[bindex], 100, "%s", (char *) &memory[cpu->reg[RSI]]);
+                    bindex += 8;
                     break;
                 case FLUSH:
+                    if (dec) {
+                        for (int i = 0; i < iindex; i++) {
+                            printf("%d", ints[i]);
+                        }
+                        memset(ints, 0, sizeof(ints));
+                    }
                     printf("%s", buffer);
+                    memset(buffer, 0, sizeof(buffer));
+                    iindex = 0;
+                    bindex = 0;
                     break;
                 default:
                     cpu->stat = INS;
@@ -252,7 +275,6 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         default:
             break;
     }
-    // free(buffer);
 }
 
 /**********************************************************************
