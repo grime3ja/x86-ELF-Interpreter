@@ -6,20 +6,28 @@
 
 #include "p4-interp.h"
 
+// Field variables for iotrap usage
+
+// output buffer, and current index, for characters and strings
 char buffer[100];
 int bindex;
+// output array, and current index, for integer values
 int ints[100];
 int iindex;
+// boolean tracking if the decout functionality was used in the y86 instruction
 bool dec = false;
 
 /**********************************************************************
  *                         REQUIRED FUNCTIONS
  *********************************************************************/
 
+// all functionality of this function was found in the y86 reference
+// provided on the p4 specification document.
 y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *valA)
 {
     y86_reg_t valE = 0;
     y86_reg_t valB = 0;
+    // checking for null pointers passed
     if (cpu == NULL) {
         inst->icode = INVALID;
         return valE;
@@ -39,6 +47,8 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             *valA = cpu->reg[inst->ra];
             valE = cpu->reg[inst->ra];
             switch (inst->ifun.cmov) {
+                // condition setting for this function found in CS:APP
+                // figure 3.15
                 case RRMOVQ:
                     *cnd = true;
                     break;
@@ -68,6 +78,8 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             break;
         case JUMP:
             switch(inst->ifun.jump) {
+                // condition setting for this function found in CS:APP
+                // figure 3.15
                 case JMP:
                     *cnd = true;
                     break;
@@ -112,6 +124,7 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
             switch (inst->ifun.op) {
                 case ADD:
                     valE = *valA + valB;
+                    // is the sum greater than 255? (0xff)
                     cpu->of = valE > 255 ? 1 : 0;
                     break;
                 case SUB:
@@ -128,11 +141,8 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
                     cpu->stat = INS;
                     break;
             }
-            if (valE == 0) {
-                cpu->zf = 1;
-            } else {
-                cpu->zf = 0;
-            }
+            // is the value after running the op instruction 0?
+            cpu->zf = valE == 0 ? 1 : 0;
             if (valE < 0 || valE >> 60 == 0xf || valE >> 60 == 0x8) {
                 cpu->sf = 1;
             } else {
@@ -172,6 +182,8 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
     return valE;
 }
 
+// all functionality of this function was found in the y86 reference
+// provided on the p4 specification document.
 void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         bool cnd, y86_reg_t valA, y86_reg_t valE)
 {
@@ -182,10 +194,20 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         cpu->stat = INS;
         return;
     }
+    // functionality setup
     y86_reg_t valM = 0;
     cpu->pc = inst->valP;
+
+    // iotrap variables
+    
+    // the end of an 8 byte value from output
     int i = cpu->reg[RSI] + 8;
+    // number of significant bytes
     int bytes = 0;
+    // used in charin
+    char cin = 0;
+    // used in decin
+    int iin = 0;
     
     switch (inst->icode) {
         case CMOV:
@@ -194,6 +216,8 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
             }
             break;
         case JUMP:
+            // is the condition code met? 
+            // if so jump to the specified destination, if not continue
             cpu->pc = cnd ? inst->valC.dest : inst->valP;
             break;
         case IRMOVQ:
@@ -203,6 +227,7 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
             memcpy(&memory[valE], &valA, 8);
             break;
         case MRMOVQ:
+            // trying to move outside of the virtual memory space
             if (valE + 8 > MEMSIZE) {
                 cpu->stat = ADR;
                 break;
@@ -235,34 +260,62 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
         case IOTRAP:
             switch (inst->ifun.trap) {
                 case CHAROUT:
+                    // copy the char from %rsi into the output buffer
                     snprintf(&buffer[bindex++], 2, "%c", (char) memory[cpu->reg[RSI]]);
                     break;
                 case CHARIN:
+                    // is the value in standard input a value char?
+                    if (scanf("%c", &cin) == 0) {
+                        printf("I/O Error\n");
+                        cpu->stat = HLT;
+                        break;
+                    }
+                    // copy the character from standard input into memory at %rdi
+                    memory[cpu->reg[RDI]] = cin;
                     break;
                 case DECOUT:
+                    // find where the significant bytes start, 
+                    // and how many of them there are
                     while (memory[i] == 0 && i >= cpu->reg[RSI]) {
                         i--;
                         bytes++;
                     }
                     bytes--;
+                    // save the int you want to output to the ints array
                     memcpy(&ints[iindex++], &memory[cpu->reg[RSI]], 8 - bytes);
                     dec = true;
                     break;
                 case DECIN:
+                    // is the value in standard input a valid decimal value?
+                    if (scanf("%d", &iin) == 0) {
+                        printf("I/O Error\n");
+                        cpu->stat = HLT;
+                        break;
+                    }
+                    // copy the int in memory at %rdi
+                    memory[cpu->reg[RDI]] = iin;
                     break;
                 case STROUT:
+                    // save the value in %rsi into the output buffer
                     snprintf(&buffer[bindex], 100, "%s", (char *) &memory[cpu->reg[RSI]]);
                     bindex += 8;
                     break;
                 case FLUSH:
+                    // is a decimal value being output?
                     if (dec) {
+                        // output the ints array
                         for (int i = 0; i < iindex; i++) {
                             printf("%d", ints[i]);
                         }
+                        // clear the ints array
                         memset(ints, 0, sizeof(ints));
                     }
+                    // print the buffer
                     printf("%s", buffer);
+                    // clear the buffer
                     memset(buffer, 0, sizeof(buffer));
+
+                    // reset the indexes of the int array and buffer
                     iindex = 0;
                     bindex = 0;
                     break;
@@ -285,8 +338,11 @@ void dump_cpu_state (y86_t *cpu)
 {
     printf("Y86 CPU state:\n");
 
+    // prints the program counter, and flag information
     printf("    PC: %016lx   ", cpu->pc);
     printf("flags: Z%d S%d O%d     ", cpu->zf & 0xf, cpu->sf & 0xf, cpu->of & 0xf);
+
+    // prints the cpu status
     switch (cpu->stat) {
         case AOK:
             printf("AOK");
@@ -303,13 +359,14 @@ void dump_cpu_state (y86_t *cpu)
     }
     printf("\n");
     
-    printf("  %%rax: %016lx    %%rcx: %016lx\n", cpu->reg[0], cpu->reg[1]);
-    printf("  %%rdx: %016lx    %%rbx: %016lx\n", cpu->reg[2], cpu->reg[3]);
-    printf("  %%rsp: %016lx    %%rbp: %016lx\n", cpu->reg[4], cpu->reg[5]);
-    printf("  %%rsi: %016lx    %%rdi: %016lx\n", cpu->reg[6], cpu->reg[7]);
-    printf("   %%r8: %016lx     %%r9: %016lx\n", cpu->reg[8], cpu->reg[9]);
-    printf("  %%r10: %016lx    %%r11: %016lx\n", cpu->reg[10], cpu->reg[11]);
-    printf("  %%r12: %016lx    %%r13: %016lx\n", cpu->reg[12], cpu->reg[13]);
-    printf("  %%r14: %016lx\n", cpu->reg[14]);
+    // prints the value of each register
+    printf("  %%rax: %016lx    %%rcx: %016lx\n", cpu->reg[RAX], cpu->reg[RCX]);
+    printf("  %%rdx: %016lx    %%rbx: %016lx\n", cpu->reg[RDX], cpu->reg[RBX]);
+    printf("  %%rsp: %016lx    %%rbp: %016lx\n", cpu->reg[RSP], cpu->reg[RBP]);
+    printf("  %%rsi: %016lx    %%rdi: %016lx\n", cpu->reg[RSI], cpu->reg[RDI]);
+    printf("   %%r8: %016lx     %%r9: %016lx\n", cpu->reg[R8], cpu->reg[R9]);
+    printf("  %%r10: %016lx    %%r11: %016lx\n", cpu->reg[R10], cpu->reg[R11]);
+    printf("  %%r12: %016lx    %%r13: %016lx\n", cpu->reg[R12], cpu->reg[R13]);
+    printf("  %%r14: %016lx\n", cpu->reg[R14]);
 }
 
