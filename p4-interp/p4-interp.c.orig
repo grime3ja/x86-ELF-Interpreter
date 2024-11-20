@@ -185,7 +185,7 @@ y86_reg_t decode_execute (y86_t *cpu, y86_inst_t *inst, bool *cnd, y86_reg_t *va
 // all functionality of this function was found in the y86 reference
 // provided on the p4 specification document.
 void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
-                   bool cnd, y86_reg_t valA, y86_reg_t valE)
+        bool cnd, y86_reg_t valA, y86_reg_t valE)
 {
     if (cpu == NULL) {
         return;
@@ -199,7 +199,7 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
     cpu->pc = inst->valP;
 
     // iotrap variables
-
+    
     // the end of an 8 byte value from output
     int i = cpu->reg[RSI] + 8;
     // number of significant bytes
@@ -208,7 +208,7 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
     char cin = 0;
     // used in decin
     int iin = 0;
-
+    
     switch (inst->icode) {
         case CMOV:
             if (cnd) {
@@ -216,7 +216,7 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
             }
             break;
         case JUMP:
-            // is the condition code met?
+            // is the condition code met? 
             // if so jump to the specified destination, if not continue
             cpu->pc = cnd ? inst->valC.dest : inst->valP;
             break;
@@ -261,8 +261,7 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
             switch (inst->ifun.trap) {
                 case CHAROUT:
                     // copy the char from %rsi into the output buffer
-                    snprintf(&buffer[bindex++], 2, "%c",
-                        (char) memory[cpu->reg[RSI]]);
+                    snprintf(&buffer[bindex++], 2, "%c", (char) memory[cpu->reg[RSI]]);
                     break;
                 case CHARIN:
                     // is the value in standard input a value char?
@@ -275,7 +274,7 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
                     memory[cpu->reg[RDI]] = cin;
                     break;
                 case DECOUT:
-                    // find where the significant bytes start,
+                    // find where the significant bytes start, 
                     // and how many of them there are
                     while (memory[i] == 0 && i >= cpu->reg[RSI]) {
                         i--;
@@ -298,8 +297,7 @@ void memory_wb_pc (y86_t *cpu, y86_inst_t *inst, byte_t *memory,
                     break;
                 case STROUT:
                     // save the value in %rsi into the output buffer
-                    snprintf(&buffer[bindex], 100, "%s",
-                        (char *) &memory[cpu->reg[RSI]]);
+                    snprintf(&buffer[bindex], 100, "%s", (char *) &memory[cpu->reg[RSI]]);
                     bindex += 8;
                     break;
                 case FLUSH:
@@ -360,7 +358,7 @@ void dump_cpu_state (y86_t *cpu)
             break;
     }
     printf("\n");
-
+    
     // prints the value of each register
     printf("  %%rax: %016lx    %%rcx: %016lx\n", cpu->reg[RAX], cpu->reg[RCX]);
     printf("  %%rdx: %016lx    %%rbx: %016lx\n", cpu->reg[RDX], cpu->reg[RBX]);
